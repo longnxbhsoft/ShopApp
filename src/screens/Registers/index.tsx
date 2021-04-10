@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
-import {Colors, Icons, Metrics} from '../../assets';
-import {Container} from '../components';
+import {Colors, Icons} from '../../assets';
+import {ButtonAccept, Container} from '../components';
 import {Inputs} from '../components';
 
 const RegisterScreen = (props: {navigation: {goBack: () => void}}) => {
@@ -21,18 +21,16 @@ const RegisterScreen = (props: {navigation: {goBack: () => void}}) => {
         </View>
         <View flex-2 />
         <View height={150} centerH backgroundColor={Colors.black01}>
+          <Inputs leftIcons={Icons.login.fullName} placeholder={'Họ và Tên'} />
           <Inputs
             leftIcons={Icons.login.email}
             placeholder={'Số điện thoại'}
             keyboardType={'phone-pad'}
           />
           <Inputs leftIcons={Icons.login.pass} placeholder={'Mật khẩu'} />
-          <Inputs leftIcons={Icons.login.pass} placeholder={'Mật khẩu'} />
         </View>
         <View flex-2 />
-        <TouchableOpacity style={styles.Button}>
-          <Text style={styles.titleButton}>Đăng kí</Text>
-        </TouchableOpacity>
+        <ButtonAccept iconLeft={false} title={'Đăng kí'} />
       </View>
       <View flex-2 center>
         <TouchableOpacity onPress={goToLogin}>
@@ -60,19 +58,6 @@ const styles = StyleSheet.create({
   fonts: {
     fontSize: 24,
     color: Colors.orangeCarrot,
-  },
-  Button: {
-    width: Metrics.screen.width - 60,
-    height: 60,
-    backgroundColor: Colors.orangeCarrot,
-    borderRadius: 30,
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  titleButton: {
-    alignSelf: 'center',
-    fontSize: 20,
-    color: Colors.white,
   },
 });
 

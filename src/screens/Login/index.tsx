@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
-import {Colors, Icons, Metrics} from '../../assets';
+import {Colors, Icons} from '../../assets';
 import {Container} from '../components';
-import {Inputs} from '../components';
+import {Inputs, ButtonAccept} from '../components';
 
 const LoginScreen = (props: {
   navigation: {navigate: (arg0: string) => void};
@@ -11,6 +11,11 @@ const LoginScreen = (props: {
   const createAnAcout = () => {
     props.navigation.navigate('registers');
   };
+
+  const login = () => {
+    props.navigation.navigate('home');
+  };
+
   return (
     <Container
       backgroundColor={Colors.white}
@@ -34,9 +39,7 @@ const LoginScreen = (props: {
           <Text color={Colors.blueNavy}>Quên mật khẩu?</Text>
         </TouchableOpacity>
         <View flex-2 />
-        <TouchableOpacity style={styles.Button}>
-          <Text style={styles.titleButton}>Đăng nhập</Text>
-        </TouchableOpacity>
+        <ButtonAccept iconLeft={false} title={'Đăng nhập'} onPress={login} />
       </View>
       <View flex-2 center>
         <TouchableOpacity onPress={createAnAcout}>
@@ -64,19 +67,6 @@ const styles = StyleSheet.create({
   fonts: {
     fontSize: 24,
     color: Colors.orangeCarrot,
-  },
-  Button: {
-    width: Metrics.screen.width - 60,
-    height: 60,
-    backgroundColor: Colors.orangeCarrot,
-    borderRadius: 30,
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  titleButton: {
-    alignSelf: 'center',
-    fontSize: 20,
-    color: Colors.white,
   },
 });
 

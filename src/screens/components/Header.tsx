@@ -1,10 +1,9 @@
 import React, {FC, memo, useCallback} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native-ui-lib';
+import {View, TouchableOpacity} from 'react-native-ui-lib';
 import {StyleSheet, Image} from 'react-native';
 // import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 
-import {Colors} from '../../assets';
 import {icons} from '../../assets/Images';
 
 interface Props {

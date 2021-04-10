@@ -7,4 +7,7 @@ export const icons = {
     fullName: require('./icons/icon-account.png'),
     exit: require('./icons/icon-close.png'),
   },
+  home: {
+    cart: require('./icons/icon-add-cart.png'),
+  },
 };
