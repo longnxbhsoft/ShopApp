@@ -11,6 +11,8 @@ export default {
   blueMalibu: '#62B5E5',
   blueSapphire: '#62B5E5',
   blueSapphire10: '#62B5E51A',
+  blueSolitude: '#F0F4F8',
+  blueNavy: '#A6BCD0',
   brownKabul50: '#665b5180',
   greenDark: '#00B140',
   greenDark10: '#00B1401A',
