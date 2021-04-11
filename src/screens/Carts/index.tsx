@@ -4,13 +4,13 @@ import {View} from 'react-native-ui-lib';
 import {Colors} from '../../assets';
 import {Container, Header} from '../components';
 
-const HomeScreen = () => {
+const CartScreen = () => {
   return (
     <Container
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <Header home={true} homechild={true} />
+      <Header cart={true} title={'Giỏ hàng'} />
       <View />
     </Container>
   );
@@ -18,4 +18,4 @@ const HomeScreen = () => {
 
 // const styles = StyleSheet.create({});
 
-export default HomeScreen;
+export default CartScreen;

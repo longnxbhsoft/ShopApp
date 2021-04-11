@@ -9,5 +9,15 @@ export const icons = {
   },
   home: {
     cart: require('./icons/icon-add-cart.png'),
+    search: require('./icons/icon-search.png'),
+    back: require('./icons/icon-arrow.png'),
+    menu: require('./icons/icon_summary.png'),
+    delivery: require('./icons/icon_delivery.png'),
+    location: require('./icons/icon-location.png'),
+    card: require('./icons/icon_payment.png'),
+    stores: require('./icons/icon-store.png'),
+    order: require('./icons/icon-recipes.png'),
+    setting: require('./icons/icon-settings.png'),
+    pluss: require('./icons/plus.png'),
   },
 };
