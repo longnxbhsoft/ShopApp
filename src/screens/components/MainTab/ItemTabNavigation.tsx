@@ -11,7 +11,7 @@ interface Props {
 
 const ItemTabNavigation = (props: Props) => {
   return (
-    <View marginT-30 center width={70} height={50}>
+    <View center width={70} height={50}>
       <Image
         source={props.imageUri}
         style={[
