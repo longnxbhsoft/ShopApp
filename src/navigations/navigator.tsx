@@ -1,7 +1,12 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {loginScreens, registerScreens} from '../screens';
+import {
+  addressConfirmScreen,
+  CheckOrderScreens,
+  loginScreens,
+  registerScreens,
+} from '../screens';
 import {MainTab} from '../screens/components';
 
 const Navigator = () => {
@@ -23,6 +28,16 @@ const Navigator = () => {
           name="home"
           options={{headerShown: false}}
           children={MainTab}
+        />
+        <Stack.Screen
+          name="address"
+          options={{headerShown: false}}
+          children={addressConfirmScreen}
+        />
+        <Stack.Screen
+          name="check"
+          options={{headerShown: false}}
+          children={CheckOrderScreens}
         />
       </Stack.Navigator>
     </NavigationContainer>

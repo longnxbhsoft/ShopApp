@@ -11,3 +11,11 @@ export interface ProductList {
   discount: number;
   percent: number;
 }
+
+export interface CartList {
+  url: string;
+  title: string;
+  quantity: number;
+  price: number;
+  total: number;
+}

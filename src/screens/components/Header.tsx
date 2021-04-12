@@ -164,7 +164,7 @@ const Header: FC<Props> = ({
               br100>
               <Image
                 tintColor={active === 2 ? Colors.white : Colors.orangeCarrot}
-                source={Icons.home.delivery}
+                source={Icons.home.card}
               />
             </View>
             <View
@@ -177,7 +177,7 @@ const Header: FC<Props> = ({
               br100>
               <Image
                 tintColor={active === 3 ? Colors.white : Colors.orangeCarrot}
-                source={Icons.home.menu}
+                source={Icons.home.delivery}
               />
             </View>
             <View
@@ -190,7 +190,7 @@ const Header: FC<Props> = ({
               br100>
               <Image
                 tintColor={active === 4 ? Colors.white : Colors.orangeCarrot}
-                source={Icons.home.card}
+                source={Icons.home.menu}
               />
             </View>
           </View>

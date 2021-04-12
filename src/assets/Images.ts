@@ -19,5 +19,7 @@ export const icons = {
     order: require('./icons/icon-recipes.png'),
     setting: require('./icons/icon-settings.png'),
     pluss: require('./icons/plus.png'),
+    edit: require('./icons/icon_edit.png'),
+    delete: require('./icons/icon_trash.png'),
   },
 };

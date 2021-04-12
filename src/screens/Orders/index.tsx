@@ -11,6 +11,7 @@ const ordersScreen = () => {
       backgroundBody={Colors.white}
       barStyle="dark-content">
       <Header cart={true} title={'Đơn hàng của bạn'} />
+      <View centerH />
       <View />
     </Container>
   );

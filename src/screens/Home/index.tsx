@@ -28,6 +28,9 @@ const HomeScreen = () => {
       barStyle="dark-content">
       <Header home={true} homechild={true} />
       <View paddingH-31 paddingB-110>
+        {/* <View centerV>
+          <Text>Sản phẩm</Text>
+        </View> */}
         <FlatList
           data={DataProducts}
           renderItem={renderItem}

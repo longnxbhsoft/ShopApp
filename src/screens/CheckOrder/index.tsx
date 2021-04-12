@@ -1,51 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
 import {Colors} from '../../assets';
 import {ButtonAccept, Container, Header} from '../components';
-import CartItem from './components/CartItem';
-import {CartList} from '../../domain';
-import {DataOnCart} from '../../untils/dummyData';
-import {useNavigation} from '@react-navigation/native';
 
-const CartScreen = () => {
-  const renderItem = ({item}: {item: CartList}) => {
-    return (
-      <CartItem
-        url={item.url}
-        title={item.title}
-        quantity={item.quantity}
-        price={item.price}
-        total={item.total}
-      />
-    );
-  };
-
-  const [total, setTotal] = useState(10);
-
-  const renderKeyExtractor = (item: any, index: number) => index.toString();
-
-  const navigation = useNavigation();
-
-  const onNext = () => {
-    navigation.navigate('address');
-  };
+const CheckOrderScreens = () => {
   return (
     <Container
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <Header cart={true} title={'Giỏ hàng'} />
+      <Header
+        title={'Xác nhận sản phẩm'}
+        isBack={true}
+        delivery={true}
+        active={2}
+      />
       <View flex-1 centerH>
-        <View flex-7 centerH>
-          <FlatList
-            data={DataOnCart}
-            renderItem={renderItem}
-            keyExtractor={renderKeyExtractor}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          />
-        </View>
+        <View flex-7 centerH />
         <View flex-3 spread paddingT-15>
           <View flex-3>
             <View row spread>
@@ -62,8 +34,6 @@ const CartScreen = () => {
             </View>
           </View>
           <ButtonAccept
-            disable={total === 0 ? true : false}
-            onPress={onNext}
             iconLeft={false}
             title={'Thanh toán'}
           />
@@ -85,4 +55,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CartScreen;
+export default CheckOrderScreens;
