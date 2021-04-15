@@ -21,6 +21,7 @@ const CartScreen = () => {
     );
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [total, setTotal] = useState(10);
 
   const renderKeyExtractor = (item: any, index: number) => index.toString();
@@ -37,7 +38,7 @@ const CartScreen = () => {
       barStyle="dark-content">
       <Header cart={true} title={'Giỏ hàng'} />
       <View flex-1 centerH>
-        <View flex-7 centerH>
+        <View flex-8 centerH>
           <FlatList
             data={DataOnCart}
             renderItem={renderItem}

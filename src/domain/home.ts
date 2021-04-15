@@ -19,3 +19,14 @@ export interface CartList {
   price: number;
   total: number;
 }
+
+export interface OrderList {
+  id: string;
+  name: string;
+  price: number;
+}
+
+export interface HistoryOrder {
+  id: string;
+  history: [];
+}

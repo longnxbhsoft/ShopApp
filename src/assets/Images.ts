@@ -1,4 +1,6 @@
-export const images = {};
+export const images = {
+  success: require('./images/graphic-confirmation.png'),
+};
 
 export const icons = {
   login: {
@@ -21,5 +23,7 @@ export const icons = {
     pluss: require('./icons/plus.png'),
     edit: require('./icons/icon_edit.png'),
     delete: require('./icons/icon_trash.png'),
+    up: require('./icons/icon-chevron-up.png'),
+    down: require('./icons/icon-chevron.png'),
   },
 };

@@ -4,7 +4,14 @@ import {View, Text} from 'react-native-ui-lib';
 import {Colors, Icons} from '../../assets';
 import {Container} from '../components';
 import {Inputs, ButtonAccept} from '../components';
-
+import {LoginManager, AccessToken} from 'react-native-fbsdk';
+import firebase from 'react-native-firebase';
+// import {
+//   LoginButton,
+//   AccessToken,
+//   GraphRequest,
+//   GraphRequestManager,
+// } from 'react-native-fbsdk';
 const LoginScreen = (props: {
   navigation: {navigate: (arg0: string) => void};
 }) => {
@@ -12,10 +19,30 @@ const LoginScreen = (props: {
     props.navigation.navigate('registers');
   };
 
-  const login = () => {
-    props.navigation.navigate('home');
+  const loginFacebook = () => {
+    LoginManager.logInWithPermissions(['profile, email'])
+      .then(result => {
+        if (result.isCancelled) {
+          return Promise.reject(new Error('The user cancel Request'));
+        }
+        console.log(`Login succes: ${result.grantedPermissions?.toString()}`);
+        return AccessToken.getCurrentAccessToken();
+      })
+      .then(data => {
+        const credential = firebase.auth.FacebookAuthProvider.credential(
+          data.accessToken,
+        );
+        return firebase.auth().signInWithCredential(credential);
+      })
+      .then(curentUser => {
+        console.log(
+          `Facebook login: ${JSON.stringify(curentUser.user.toJSON())}`,
+        );
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
-
   return (
     <Container
       backgroundColor={Colors.white}
@@ -39,7 +66,34 @@ const LoginScreen = (props: {
           <Text color={Colors.blueNavy}>Quên mật khẩu?</Text>
         </TouchableOpacity>
         <View flex-2 />
-        <ButtonAccept iconLeft={false} title={'Đăng nhập'} onPress={login} />
+        <ButtonAccept
+          onPress={loginFacebook}
+          iconLeft={false}
+          title={'Đăng nhập'}
+        />
+        {/* <LoginButton
+          readPermissions={['public_profile']}
+          onLoginFinished={(error, result) => {
+            if (error) {
+              Alert.alert(error);
+              console.log('Login has error: ' + result.error);
+            } else if (result.isCancelled) {
+              Alert.alert('Login is cancelled.');
+            } else {
+              AccessToken.getCurrentAccessToken().then((data) => {
+                console.log(data.accessToken.toString());
+                const processRequest = new GraphRequest(
+                  '/me?fields=name,picture.type(large)',
+                  null,
+                  getResponseInfo,
+                );
+                // Start the graph request.
+                new GraphRequestManager().addRequest(processRequest).start();
+              });
+            }
+          }}
+          onLogoutFinished={onLogout}
+        /> */}
       </View>
       <View flex-2 center>
         <TouchableOpacity onPress={createAnAcout}>

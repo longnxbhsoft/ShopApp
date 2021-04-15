@@ -30,7 +30,7 @@ const CartProduct = (props: Props) => {
       row
       height={75}
       br30
-      marginV-10
+      marginV-7
       backgroundColor={Colors.white}>
       <View flex-1 br30 row>
         <View flex-1 row br30>

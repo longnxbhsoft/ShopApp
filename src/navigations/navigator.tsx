@@ -6,6 +6,7 @@ import {
   CheckOrderScreens,
   loginScreens,
   registerScreens,
+  SuccessOrderScreens,
 } from '../screens';
 import {MainTab} from '../screens/components';
 
@@ -38,6 +39,11 @@ const Navigator = () => {
           name="check"
           options={{headerShown: false}}
           children={CheckOrderScreens}
+        />
+        <Stack.Screen
+          name="success"
+          options={{headerShown: false}}
+          children={SuccessOrderScreens}
         />
       </Stack.Navigator>
     </NavigationContainer>

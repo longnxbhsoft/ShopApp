@@ -180,7 +180,7 @@ const Header: FC<Props> = ({
                 source={Icons.home.delivery}
               />
             </View>
-            <View
+            {/* <View
               width={80}
               height={45}
               center
@@ -192,7 +192,7 @@ const Header: FC<Props> = ({
                 tintColor={active === 4 ? Colors.white : Colors.orangeCarrot}
                 source={Icons.home.menu}
               />
-            </View>
+            </View> */}
           </View>
         </View>
       )}

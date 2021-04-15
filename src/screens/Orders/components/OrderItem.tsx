@@ -1,131 +1,65 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {Text, TouchableOpacity, Image, View, Card} from 'react-native-ui-lib';
+import {Text, TouchableOpacity, Image, View} from 'react-native-ui-lib';
 import {Colors, Icons, Metrics} from '../../../assets';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
+import {OrderList} from '../../../domain';
 
 interface Props {
-  url: string;
-  title: string;
-  quantity: number;
-  price: number;
-  total: number;
+  orderHistory: [];
+  id: string;
 }
 const width = Metrics.screen.width - 60;
 const ItemsProduct = (props: Props) => {
   let formaters = new Intl.NumberFormat('us-US');
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const HideShow = () => {
     setShow(!show);
   };
 
-  const Hide = () => {
-    setShow(true);
-  };
   return (
-    <Card
+    <View
       width={width}
-      row
-      height={75}
-      br30
-      marginV-10
-      backgroundColor={Colors.white}>
-      <View flex-1 br30 row>
-        <View flex-1 row br30>
-          <Image resizeMode={'cover'} source={{uri: props.url}} />
-        </View>
-        {show ? (
-          <View flex-3>
-            <Text
-              style={styles.font14}
-              color={Colors.blueNavy}
-              marginV-5
-              marginL-10
-              numberOfLines={1}>
-              {props.title}
-            </Text>
-            <Text marginL-10 color={Colors.blueNavy}>
-              {formaters.format(props.price)} đ
-              <Text color={Colors.blueNavy}>
-                {'   '}x{props.quantity}
-              </Text>
-            </Text>
-            <View row spread>
-              <Text marginL-10 marginV-5 color={Colors.blueNavy}>
-                Thành Tiền:{' '}
-                <Text color={Colors.redAlizarin} style={styles.fonts}>
-                  {formaters.format(props.total)}
-                </Text>
-              </Text>
-              <TouchableOpacity centerV onPress={HideShow}>
-                <Text marginR-10 color={Colors.brownKabul50}>
-                  Mua lại{' >>'}{' '}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <>
-            <View flex-2>
-              <Text
-                style={styles.font14}
-                color={Colors.blueNavy}
-                marginV-5
-                marginL-10
-                numberOfLines={1}>
-                {props.title}
-              </Text>
-              <Text numberOfLines={1} marginL-10 color={Colors.blueNavy}>
-                {formaters.format(props.price)} đ
-                <Text color={Colors.blueNavy}>
-                  {'   '}x{props.quantity}
-                </Text>
-              </Text>
-              <View row spread>
-                <Text
-                  numberOfLines={1}
-                  marginL-10
-                  marginV-5
-                  color={Colors.blueNavy}>
-                  Thành Tiền:{' '}
-                  <Text color={Colors.redAlizarin} style={styles.fonts}>
-                    {formaters.format(props.total)}
-                  </Text>
-                </Text>
-              </View>
-            </View>
-            <View flex-2 row center>
-              <View flex-1 center backgroundColor={Colors.black38} height={75}>
-                <TouchableOpacity onPress={Hide}>
-                  <Image source={Icons.home.location} />
-                </TouchableOpacity>
-              </View>
-              <View
-                flex-1
-                center
-                backgroundColor={Colors.orangeCarrot08}
-                height={75}
-                style={styles.boders}>
-                <TouchableOpacity onPress={Hide}>
-                  <Image source={Icons.home.location} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </>
-        )}
+      paddingV-20
+      paddingH-30
+      backgroundColor={Colors.blueDark10}
+      br20>
+      <View row spread centerV>
+        <Text style={styles.fonts} numberOfLines={1}>
+          Đơn hàng #{props.id}
+        </Text>
+        <TouchableOpacity onPress={HideShow}>
+          {show ? (
+            <Image source={Icons.home.up} />
+          ) : (
+            <Image source={Icons.home.down} />
+          )}
+        </TouchableOpacity>
       </View>
-    </Card>
+      {show &&
+        props.orderHistory.map(({item}: {item: OrderList}) => {
+          <View marginT-10>
+            <View row spread marginV-7>
+              <Text style={styles.font14}>{item.name}</Text>
+              <Text style={styles.font14}>{formaters.format(item.price)}đ</Text>
+            </View>
+          </View>;
+        })}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   font14: {
     fontSize: 14,
+    color: Colors.blueNavy,
   },
   fonts: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '500',
+    marginVertical: 5,
+    color: Colors.blueNavy,
   },
   boders: {
     borderTopRightRadius: 10,

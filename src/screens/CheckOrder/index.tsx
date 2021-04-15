@@ -1,10 +1,32 @@
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
-import {Colors} from '../../assets';
+import {Colors, Metrics} from '../../assets';
+import {CartList} from '../../domain';
+import List from './components/List';
 import {ButtonAccept, Container, Header} from '../components';
+import {DataOnCart} from '../../untils/dummyData';
+import {useNavigation} from '@react-navigation/native';
 
 const CheckOrderScreens = () => {
+  const navigation = useNavigation();
+
+  const Order = () => {
+    navigation.navigate('success');
+  };
+  const renderItem = ({item}: {item: CartList}) => {
+    return (
+      <List
+        url={item.url}
+        title={item.title}
+        quantity={item.quantity}
+        price={item.price}
+        total={item.total}
+      />
+    );
+  };
+  const width = Metrics.screen.width;
+  const renderKeyExtractor = (item: any, index: number) => index.toString();
   return (
     <Container
       backgroundColor={Colors.white}
@@ -17,9 +39,27 @@ const CheckOrderScreens = () => {
         active={2}
       />
       <View flex-1 centerH>
-        <View flex-7 centerH />
-        <View flex-3 spread paddingT-15>
+        <View flex-6 centerH>
+          <FlatList
+            data={DataOnCart}
+            renderItem={renderItem}
+            keyExtractor={renderKeyExtractor}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
+        </View>
+        <View flex-4 spread centerH paddingB-20>
           <View flex-3>
+            <View
+              marginB-10
+              row
+              spread
+              centerV
+              width={width - 40}
+              height={40}
+              backgroundColor={Colors.blueDark10}>
+              <Text style={styles.font15}>Thông tin thanh toán</Text>
+            </View>
             <View row spread>
               <Text style={styles.font15}>Tổng</Text>
               <Text style={styles.font15}>100,000 đ</Text>
@@ -35,7 +75,8 @@ const CheckOrderScreens = () => {
           </View>
           <ButtonAccept
             iconLeft={false}
-            title={'Thanh toán'}
+            title={'Tiến hành đặt hàng'}
+            onPress={Order}
           />
         </View>
       </View>

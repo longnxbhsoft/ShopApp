@@ -213,3 +213,31 @@ export const DataOnCart = [
     total: 900000,
   },
 ];
+
+export const OrderHistory = [
+  {
+    id: '97dk9093e',
+    history: [
+      {
+        id: '01',
+        name: 'Quần âu',
+        price: '100000',
+      },
+      {
+        id: '02',
+        name: 'Quần bò',
+        price: '150000',
+      },
+      {
+        id: '03',
+        name: 'Quần dài',
+        price: '120000',
+      },
+      {
+        id: '04',
+        name: 'Quần vảu',
+        price: '130000',
+      },
+    ],
+  },
+];

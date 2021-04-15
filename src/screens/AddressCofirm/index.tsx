@@ -1,11 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {StyleSheet} from 'react-native';
-import {View, Text} from 'react-native-ui-lib';
+import {View} from 'react-native-ui-lib';
 import {Colors, Metrics} from '../../assets';
-import {DataOnCart} from '../../untils/dummyData';
-import {ButtonAccept, Container, Header} from '../components';
-
+import {ButtonAccept, Container, EditAddress, Header} from '../components';
 const AddressConfirmScreen = () => {
   const navigation = useNavigation();
 
@@ -22,13 +19,7 @@ const AddressConfirmScreen = () => {
       <Header title={'Thêm địa chỉ'} isBack={true} delivery={true} active={1} />
       <View flex-1 centerH>
         <View flex-10 width={width} center>
-          <View
-            height={400}
-            width={width}
-            backgroundColor={Colors.blueDark10}
-            br20>
-            <View />
-          </View>
+          <EditAddress dateOfBirth={false} />
         </View>
         <View flex-2 spread paddingT-15 paddingB-10>
           <ButtonAccept onPress={onNext} iconLeft={false} title={'Tiếp tục'} />
@@ -37,17 +28,5 @@ const AddressConfirmScreen = () => {
     </Container>
   );
 };
-
-const styles = StyleSheet.create({
-  font15: {
-    fontSize: 15,
-    color: Colors.black,
-  },
-  font23: {
-    fontSize: 23,
-    fontWeight: '700',
-    color: Colors.redAlizarin38,
-  },
-});
 
 export default AddressConfirmScreen;
