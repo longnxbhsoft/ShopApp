@@ -8,3 +8,4 @@ export {default as settingScreen} from './Settings';
 export {default as addressConfirmScreen} from './AddressCofirm';
 export {default as CheckOrderScreens} from './CheckOrder';
 export {default as SuccessOrderScreens} from './SuccessOrder';
+export {default as DetailScreen} from './Detail';

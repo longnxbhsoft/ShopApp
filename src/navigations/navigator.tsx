@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {
   addressConfirmScreen,
   CheckOrderScreens,
+  DetailScreen,
   loginScreens,
   registerScreens,
   SuccessOrderScreens,
@@ -44,6 +45,11 @@ const Navigator = () => {
           name="success"
           options={{headerShown: false}}
           children={SuccessOrderScreens}
+        />
+        <Stack.Screen
+          name="Detail"
+          options={{headerShown: false}}
+          children={DetailScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

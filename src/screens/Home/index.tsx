@@ -1,5 +1,4 @@
 import React from 'react';
-// import {StyleSheet, TouchableOpacity} from 'react-native';
 import {View} from 'react-native-ui-lib';
 import {Colors} from '../../assets';
 import {Container, Header} from '../components';
@@ -7,11 +6,18 @@ import {ItemsProduct} from './components';
 import {ProductList} from '../../domain';
 import {FlatList, StyleSheet} from 'react-native';
 import {DataProducts} from '../../untils/dummyData';
+import {useNavigation} from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const navigation = useNavigation();
+
   const renderItem = ({item}: {item: ProductList}) => {
+    const gotoDetail = () => {
+      navigation.navigate('Detail');
+    };
     return (
       <ItemsProduct
+        goToDetail={gotoDetail}
         name={item.title}
         percent={item.percent}
         discout={item.discount}
