@@ -1,16 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native-ui-lib';
 import {Colors} from '../../assets';
 import {Container, Header} from '../components';
 import {ItemsProduct} from './components';
-import {ProductList} from '../../domain';
+import {CategoriesList, ProductList} from '../../domain';
 import {FlatList, StyleSheet} from 'react-native';
-import {DataProducts} from '../../untils/dummyData';
 import {useNavigation} from '@react-navigation/native';
+import {getAllCategories, getAllProducts} from '../../reduxs/actions/Home.act';
+import {connect} from 'react-redux';
 
-const HomeScreen = () => {
+const HomeScreen = (props: {
+  getAllProducts: () => void;
+  getAllCategories: () => void;
+  all_products: readonly ProductList[] | null | undefined;
+  all_categories: readonly CategoriesList[] | null | undefined;
+}) => {
   const navigation = useNavigation();
 
+  useState(() => {
+    props.getAllProducts();
+    props.getAllCategories();
+  });
   const renderItem = ({item}: {item: ProductList}) => {
     const gotoDetail = () => {
       navigation.navigate('Detail');
@@ -18,27 +28,29 @@ const HomeScreen = () => {
     return (
       <ItemsProduct
         goToDetail={gotoDetail}
-        name={item.title}
-        percent={item.percent}
-        discout={item.discount}
-        price={item.price}
-        url={item.url}
+        name={item.name}
+        discout={item.price.originalPrice}
+        price={item.price.salePrice}
+        url={
+          'https://api.cheapsyn.top/public/images/products/product_images_1618758579509.jpg'
+        }
       />
     );
   };
-  const renderKeyExtractor = (item: any, index: number) => index.toString();
+  const renderKeyExtractor = (_item: any, index: number) => index.toString();
   return (
     <Container
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <Header home={true} homechild={true} />
+      <Header
+        home={true}
+        homechild={true}
+        all_category={props.all_categories}
+      />
       <View paddingH-31 paddingB-110>
-        {/* <View centerV>
-          <Text>Sản phẩm</Text>
-        </View> */}
         <FlatList
-          data={DataProducts}
+          data={props.all_products}
           renderItem={renderItem}
           keyExtractor={renderKeyExtractor}
           showsVerticalScrollIndicator={false}
@@ -57,4 +69,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+const mapStateToProps = (state: {all_products?: any; all_categories?: any}) => {
+  const {all_products} = state;
+  const {all_categories} = state;
+  return {
+    all_products: all_products,
+    all_categories: all_categories,
+  };
+};
+
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  getAllProducts: () => dispatch(getAllProducts()),
+  getAllCategories: () => dispatch(getAllCategories()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

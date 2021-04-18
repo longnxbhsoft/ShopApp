@@ -10,13 +10,13 @@ interface Props {
   name: string;
   price: number;
   discout: number;
-  percent: number;
   goToDetail?: () => void;
   addCart?: () => void;
 }
 
 const ItemsProduct = (props: Props) => {
   let formaters = new Intl.NumberFormat('us-US');
+  // const percent = (props.discout / props.price) * 100;
   return (
     <Card width={150} height={190} br30 marginV-10>
       <TouchableOpacity flex-1 onPress={props.goToDetail}>
@@ -47,7 +47,7 @@ const ItemsProduct = (props: Props) => {
               marginL-5
               color={Colors.redAlizarin}
               style={styles.DiscountPercent}>
-              | -{props.percent}%
+              {/* | -{percent}% */}
             </Text>
           </View>
         </View>

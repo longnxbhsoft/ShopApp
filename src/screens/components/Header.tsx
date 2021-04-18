@@ -2,8 +2,7 @@ import React, {FC, memo, useCallback, useState} from 'react';
 import {View, Image, Text, TouchableOpacity} from 'react-native-ui-lib';
 import {FlatList, StyleSheet, TextInput} from 'react-native';
 import {Colors, Icons, Metrics} from '../../assets';
-import {HeaderList} from '../../domain';
-import {DataCategory} from '../../untils/dummyData';
+import {CategoriesList, HeaderList} from '../../domain';
 import {useNavigation} from '@react-navigation/native';
 
 export interface Props {
@@ -14,6 +13,7 @@ export interface Props {
   title?: string;
   delivery?: boolean;
   active?: number;
+  all_category?: readonly CategoriesList[] | null | undefined;
 }
 
 const Header: FC<Props> = ({
@@ -24,22 +24,23 @@ const Header: FC<Props> = ({
   isBack,
   delivery,
   active,
+  all_category,
 }) => {
-  const [isSelect, setSelected] = useState('1');
+  const [isSelect, setSelected] = useState('6078616beb81c312682e0b8c');
 
   const [search, setSearch] = useState(false);
 
   const renderItem = ({item}: {item: HeaderList}) => {
     const SelectCat = () => {
-      if (item?.id) {
-        setSelected(item.id);
+      if (item?._id) {
+        setSelected(item._id);
       }
     };
     return (
       <TouchableOpacity center onPress={SelectCat} marginH-18>
         <Text
-          color={isSelect === item.id ? Colors.orangeCarrot : Colors.blueNavy}>
-          {item.title}
+          color={isSelect === item._id ? Colors.orangeCarrot : Colors.blueNavy}>
+          {item.name}
         </Text>
       </TouchableOpacity>
     );
@@ -99,7 +100,7 @@ const Header: FC<Props> = ({
             ) : (
               <View height={50} width={Metrics.screen.width} center>
                 <FlatList<HeaderList>
-                  data={DataCategory || []}
+                  data={all_category || []}
                   renderItem={renderItem}
                   keyExtractor={renderKeyExtractor}
                   horizontal={true}
@@ -180,19 +181,6 @@ const Header: FC<Props> = ({
                 source={Icons.home.delivery}
               />
             </View>
-            {/* <View
-              width={80}
-              height={45}
-              center
-              backgroundColor={
-                active === 4 ? Colors.orangeCarrot : Colors.white
-              }
-              br100>
-              <Image
-                tintColor={active === 4 ? Colors.white : Colors.orangeCarrot}
-                source={Icons.home.menu}
-              />
-            </View> */}
           </View>
         </View>
       )}

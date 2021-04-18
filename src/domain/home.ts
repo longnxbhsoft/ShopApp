@@ -1,13 +1,21 @@
 export interface HeaderList {
-  title: string;
-  id: string;
+  name: string;
+  _id: string;
+}
+
+export interface CategoriesList {
+  name: string;
+  _id: string;
 }
 
 export interface ProductList {
-  title: string;
+  images: any;
+  name: string;
   id: string;
-  url: string;
-  price: number;
+  price: {
+    originalPrice: number;
+    salePrice: number;
+  };
   discount: number;
   percent: number;
 }
