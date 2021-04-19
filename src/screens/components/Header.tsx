@@ -75,7 +75,7 @@ const Header: FC<Props> = ({
             spread>
             <Image source={Icons.home.menu} />
             <Text style={styles.name}>
-              Shop<Text color={Colors.orangeCarrot}>Nix</Text>
+              Cheap<Text color={Colors.orangeCarrot}>Syn</Text>
             </Text>
             <TouchableOpacity onPress={changeSearch}>
               <Image source={search ? Icons.login.exit : Icons.home.search} />
