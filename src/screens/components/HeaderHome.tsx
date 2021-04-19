@@ -1,4 +1,4 @@
-import React, {FC, memo, useCallback, useState} from 'react';
+import React, {FC, memo, useCallback, useEffect, useState} from 'react';
 import {View, Image, Text, TouchableOpacity} from 'react-native-ui-lib';
 import {FlatList, StyleSheet, TextInput} from 'react-native';
 import {Colors, Icons, Metrics} from '../../assets';
@@ -15,6 +15,7 @@ export interface Props {
   active?: number;
   all_category?: readonly CategoriesList[] | null | undefined;
   onChangeText?: (text: any) => void;
+  parentCallback?: any;
 }
 
 const Header: FC<Props> = ({
@@ -27,10 +28,15 @@ const Header: FC<Props> = ({
   active,
   all_category,
   onChangeText,
+  parentCallback,
 }) => {
   const [isSelect, setSelected] = useState('6078616beb81c312682e0b8c');
 
   const [search, setSearch] = useState(false);
+
+  useEffect(() => {
+    parentCallback(isSelect);
+  });
 
   const renderItem = ({item}: {item: HeaderList}) => {
     const SelectCat = () => {

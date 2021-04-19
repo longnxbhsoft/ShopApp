@@ -34,22 +34,22 @@ const Navigator = () => {
         <Stack.Screen
           name="address"
           options={{headerShown: false}}
-          children={addressConfirmScreen}
+          component={addressConfirmScreen}
         />
         <Stack.Screen
           name="check"
           options={{headerShown: false}}
-          children={CheckOrderScreens}
+          component={CheckOrderScreens}
         />
         <Stack.Screen
           name="success"
           options={{headerShown: false}}
-          children={SuccessOrderScreens}
+          component={SuccessOrderScreens}
         />
         <Stack.Screen
           name="Detail"
           options={{headerShown: false}}
-          children={DetailScreen}
+          component={DetailScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

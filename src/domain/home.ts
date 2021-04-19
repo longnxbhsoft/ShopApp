@@ -11,7 +11,7 @@ export interface CategoriesList {
 export interface ProductList {
   images: any;
   name: string;
-  id: string;
+  _id: string;
   price: {
     originalPrice: number;
     salePrice: number;
@@ -21,10 +21,13 @@ export interface ProductList {
 }
 
 export interface CartList {
-  url: string;
-  title: string;
+  image: string;
+  name: string;
   quantity: number;
-  price: number;
+  price: {
+    originalPrice: number;
+    salePrice: number;
+  };
   total: number;
 }
 

@@ -5,10 +5,19 @@ import {Colors, Metrics} from '../../assets';
 import {CartList} from '../../domain';
 import List from './components/List';
 import {ButtonAccept, Container, Header} from '../components';
-import {DataOnCart} from '../../untils/dummyData';
 import {useNavigation} from '@react-navigation/native';
+import {connect} from 'react-redux';
 
-const CheckOrderScreens = () => {
+const CheckOrderScreens = (props: {
+  Carts: readonly CartList[] | null | undefined;
+  numberCart:
+    | boolean
+    | React.ReactChild
+    | React.ReactFragment
+    | React.ReactPortal
+    | null
+    | undefined;
+}) => {
   const navigation = useNavigation();
 
   const Order = () => {
@@ -17,11 +26,11 @@ const CheckOrderScreens = () => {
   const renderItem = ({item}: {item: CartList}) => {
     return (
       <List
-        url={item.url}
-        title={item.title}
+        url={item.image}
+        title={item.name}
         quantity={item.quantity}
-        price={item.price}
-        total={item.total}
+        price={item.price.salePrice}
+        total={item.price.salePrice * item.quantity}
       />
     );
   };
@@ -41,7 +50,7 @@ const CheckOrderScreens = () => {
       <View flex-1 centerH>
         <View flex-6 centerH>
           <FlatList
-            data={DataOnCart}
+            data={props.Carts}
             renderItem={renderItem}
             keyExtractor={renderKeyExtractor}
             showsVerticalScrollIndicator={false}
@@ -60,17 +69,13 @@ const CheckOrderScreens = () => {
               backgroundColor={Colors.blueDark10}>
               <Text style={styles.font15}>Thông tin thanh toán</Text>
             </View>
+            <View row spread marginV-12>
+              <Text style={styles.font15}>Số sản phẩm</Text>
+              <Text style={styles.font15}>{props.numberCart}</Text>
+            </View>
             <View row spread>
               <Text style={styles.font15}>Tổng</Text>
               <Text style={styles.font15}>100,000 đ</Text>
-            </View>
-            <View row spread marginV-12>
-              <Text style={styles.font15}>Số sản phẩm</Text>
-              <Text style={styles.font15}>2</Text>
-            </View>
-            <View row spread>
-              <Text style={styles.font23}>Thanh toán</Text>
-              <Text style={styles.font23}>100,000 đ</Text>
             </View>
           </View>
           <ButtonAccept
@@ -96,4 +101,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CheckOrderScreens;
+const mapStateToProps = (state: {Carts?: any; numberCart?: any}) => {
+  const {Carts} = state;
+  const {numberCart} = state;
+  return {
+    Carts: Carts,
+    numberCart: numberCart,
+  };
+};
+
+const mapDispatchToProps = () => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckOrderScreens);

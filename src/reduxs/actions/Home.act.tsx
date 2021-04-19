@@ -7,10 +7,30 @@ export const addToCart = (payload: any) => {
   };
 };
 
-export const getAllProducts = () => {
+export const getAllProducts = (
+  name: string,
+  category: string,
+  startPrice: number,
+  stopPrice: number,
+  offset: number,
+) => {
   return (dispatch: any) => {
+    dispatch({
+      type: 'GET_DATA_REQUEST',
+    });
     fetch('https://api.cheapsyn.top/product/getall', {
-      method: 'GET',
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        category: category,
+        startPrice: startPrice,
+        stopPrice: stopPrice,
+        offset: offset,
+      }),
     })
       .then(response => response.json())
       .then(responseJson => {
