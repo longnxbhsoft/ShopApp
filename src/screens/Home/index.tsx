@@ -4,7 +4,7 @@ import {Colors} from '../../assets';
 import {Container, HeaderHome, Loader} from '../components';
 import {ItemsProduct} from './components';
 import {CategoriesList, ProductList} from '../../domain';
-import {Alert, FlatList, StyleSheet} from 'react-native';
+import {ActivityIndicator, Alert, FlatList, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   getAllCategories,
@@ -30,6 +30,7 @@ const HomeScreen = (props: {
   getInfo: () => void;
 }) => {
   const navigation = useNavigation();
+  const [offset, setOffset] = useState(1);
 
   const [name, setName] = useState('');
 
@@ -39,8 +40,6 @@ const HomeScreen = (props: {
   const [startPrice, setStart] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [stopPrice, setStop] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [ofset, setOfset] = useState(1);
 
   const callbackFunction = (childData: React.SetStateAction<string>) => {
     setCate(childData);
@@ -51,11 +50,11 @@ const HomeScreen = (props: {
   }, []);
 
   useEffect(() => {
-    props.getAllProducts(name, category, startPrice, stopPrice, ofset);
+    props.getAllProducts(name, category, startPrice, stopPrice, offset);
     props.getAllCategories();
     props.getInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, name, ofset, startPrice, stopPrice]);
+  }, [category, name, startPrice, stopPrice]);
 
   const renderItem = ({item}: {item: ProductList}) => {
     const gotoDetail = () => {
@@ -78,6 +77,22 @@ const HomeScreen = (props: {
         url={item.images[0]}
         addCart={AddsToCart}
       />
+    );
+  };
+
+  const getData = () => {
+    console.log(offset);
+    setOffset(offset + 1);
+  };
+
+  const renderFooter = () => {
+    return (
+      // Footer View with Loader
+      <View style={styles.footer}>
+        {props.loading ? (
+          <ActivityIndicator color={Colors.orangeCarrot} />
+        ) : null}
+      </View>
     );
   };
 
@@ -105,6 +120,9 @@ const HomeScreen = (props: {
           showsHorizontalScrollIndicator={false}
           numColumns={2}
           columnWrapperStyle={styles.products}
+          ListFooterComponent={renderFooter}
+          onEndReached={getData}
+          onEndReachedThreshold={0.5}
         />
       </View>
     </Container>
@@ -114,6 +132,12 @@ const HomeScreen = (props: {
 const styles = StyleSheet.create({
   products: {
     justifyContent: 'space-between',
+  },
+  footer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
 });
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Text, TouchableOpacity, Image, View, Card} from 'react-native-ui-lib';
-import {Colors, Icons} from '../../../assets';
+import {Colors, Icons, Metrics} from '../../../assets';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 
@@ -17,8 +17,9 @@ interface Props {
 const ItemsProduct = (props: Props) => {
   let formaters = new Intl.NumberFormat('us-US');
   // const percent = (props.discout / props.price) * 100;
+  const width = Metrics.screen.width / 2.5;
   return (
-    <Card width={150} height={190} br30 marginV-10>
+    <Card width={width} height={210} br30 marginV-10>
       <TouchableOpacity flex-1 onPress={props.goToDetail}>
         <View flex-6>
           <Image
@@ -27,11 +28,11 @@ const ItemsProduct = (props: Props) => {
             style={styles.images}
           />
         </View>
-        <View flex-4 paddingH-10>
-          <Text numberOfLines={1} style={styles.fontSizeL} marginT-7>
+        <View flex-4 paddingH-7>
+          <Text numberOfLines={2} style={styles.fontSizeL} marginT-7>
             {props.name}
           </Text>
-          <Text marginT-5 color={Colors.orangeCarrot} style={styles.fontPrice}>
+          <Text marginT-2 color={Colors.orangeCarrot} style={styles.fontPrice}>
             đ {formaters.format(props.price)}
           </Text>
           <View row centerV>
@@ -39,11 +40,11 @@ const ItemsProduct = (props: Props) => {
               numberOfLines={1}
               color={Colors.greySilver}
               style={styles.Discount}
-              marginT-5>
+              marginT-2>
               đ {props.discout}
             </Text>
             <Text
-              marginT-5
+              marginT-2
               marginL-5
               color={Colors.redAlizarin}
               style={styles.DiscountPercent}>
@@ -75,7 +76,7 @@ const ItemsProduct = (props: Props) => {
 const styles = StyleSheet.create({
   fontSizeL: {
     fontSize: 12,
-    color: Colors.black38,
+    color: Colors.blueDark,
   },
   fontPrice: {
     fontSize: 18,

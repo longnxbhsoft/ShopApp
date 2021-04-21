@@ -4,6 +4,7 @@ import {
   Image,
   TextInput,
   KeyboardTypeOptions,
+  StyleSheet,
 } from 'react-native';
 import {View} from 'react-native-ui-lib';
 import {Colors, Metrics} from '../../assets';
@@ -33,10 +34,18 @@ const LoginScreen = (props: Props) => {
           onChangeText={props.onChangeText}
           keyboardType={props.keyboardType}
           secureTextEntry={props.isSecure}
+          placeholderTextColor={Colors.blueDark}
+          style={styles.colors}
         />
       </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  colors: {
+    color: Colors.blueDark,
+  },
+});
 
 export default LoginScreen;

@@ -34,7 +34,7 @@ const ItemsProduct = (props: Props) => {
         <Text style={styles.fonts} numberOfLines={1}>
           Đơn hàng #{props._id}
         </Text>
-        <TouchableOpacity onPress={HideShow}>
+        <TouchableOpacity center style={styles.button} onPress={HideShow}>
           {show ? (
             <Image source={Icons.home.up} />
           ) : (
@@ -82,6 +82,10 @@ const styles = StyleSheet.create({
   borderBottom: {
     borderBottomWidth: 0.5,
     borderBottomColor: Colors.blueNavy,
+  },
+  button: {
+    width: 40,
+    height: 40,
   },
 });
 
