@@ -9,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
-import {getDetail, postOrder} from '../../reduxs/actions/Home.act';
+import {DeleteCart, getDetail, postOrder} from '../../reduxs/actions/Home.act';
 
 const CheckOrderScreens = (props: {
   Carts: readonly CartList[] | null | undefined;
@@ -21,8 +21,6 @@ const CheckOrderScreens = (props: {
     | null
     | undefined;
   route: {params: {name: any; phone: any; address: any; total: any}};
-  loading: boolean;
-  success: boolean;
   postOrder: (
     arg0: any,
     arg1: string,
@@ -32,6 +30,10 @@ const CheckOrderScreens = (props: {
     arg5: any,
     arg6: any,
   ) => void;
+  deleteCart: () => void;
+  success: boolean;
+  loading: any;
+  dataUser: any;
 }) => {
   const navigation = useNavigation();
 
@@ -62,17 +64,19 @@ const CheckOrderScreens = (props: {
 
   const width = Metrics.screen.width;
 
-  const userID = '607af217dad58f64d932d10e';
+  const userID = props.dataUser;
 
   const renderKeyExtractor = (item: any, index: number) => index.toString();
 
   const Order = () => {
     props.postOrder(carts, userID, quantity, total, address, phone, name);
+    props.deleteCart();
   };
 
   useEffect(() => {
     if (props.success === true) {
       navigation.navigate('success');
+      //
     }
   });
 
@@ -147,16 +151,20 @@ const mapStateToProps = (state: {
   numberCart?: any;
   loading: boolean;
   success: boolean;
+  dataUser: any;
 }) => {
   const {Carts} = state;
   const {numberCart} = state;
   const {loading} = state;
   const {success} = state;
+  const {dataUser} = state;
+  console.log(dataUser);
   return {
     Carts: Carts,
     numberCart: numberCart,
     loading: loading,
     success: success,
+    dataUser: dataUser,
   };
 };
 
@@ -171,6 +179,7 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
     phone: string,
     name: string,
   ) => dispatch(postOrder(cart, userID, quantity, total, address, phone, name)),
+  deleteCart: () => dispatch(DeleteCart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckOrderScreens);

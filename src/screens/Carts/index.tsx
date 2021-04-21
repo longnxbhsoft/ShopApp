@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
+import {DeleteItem} from '../../reduxs/actions/Home.act';
 
 const CartScreen = (props: {
   Carts: readonly CartList[] | null | undefined;
@@ -23,6 +24,7 @@ const CartScreen = (props: {
   const renderItem = ({item}: {item: CartList}) => {
     return (
       <CartItem
+        _id={item.product_id}
         url={item.image}
         title={item.name}
         quantity={item.quantity}
@@ -31,6 +33,7 @@ const CartScreen = (props: {
       />
     );
   };
+
   let TotalCart = 0;
   Object.keys(props.Carts).forEach(function (items) {
     TotalCart +=
@@ -119,6 +122,8 @@ const mapStateToProps = (state: {Carts?: any; numberCart?: any}) => {
   };
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  DeleteItem: (item: any) => dispatch(DeleteItem(item)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartScreen);

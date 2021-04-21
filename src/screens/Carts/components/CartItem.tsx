@@ -4,14 +4,19 @@ import {Text, TouchableOpacity, Image, View, Card} from 'react-native-ui-lib';
 import {Colors, Icons, Metrics} from '../../../assets';
 import 'intl';
 import 'intl/locale-data/jsonp/en';
+import {connect} from 'react-redux';
+import {DeleteItem} from '../../../reduxs/actions/Home.act';
+import {CartList} from '../../../domain';
 
 interface Props {
+  _id: string;
   url: string;
   title: string;
   quantity: number;
   price: number;
   total: number;
   OnPress?: () => void;
+  DeleteItem: (arg0: CartList) => void;
 }
 const width = Metrics.screen.width - 40;
 const CartProduct = (props: Props) => {
@@ -21,8 +26,20 @@ const CartProduct = (props: Props) => {
     setShow(!show);
   };
 
+  const item = {
+    product_id: props._id,
+    image: props.url,
+    name: props.title,
+    quantity: props.quantity,
+    price: {
+      salePrice: props.price,
+    },
+    total: props.total,
+  };
+
   const Hide = () => {
     setShow(true);
+    props.DeleteItem(item);
   };
   return (
     <Card
@@ -145,4 +162,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CartProduct;
+const mapStateToProps = (state: {Carts?: any; numberCart?: any}) => {
+  const {Carts} = state;
+  const {numberCart} = state;
+  return {
+    Carts: Carts,
+    numberCart: numberCart,
+  };
+};
+
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  DeleteItem: (item: any) => dispatch(DeleteItem(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartProduct);

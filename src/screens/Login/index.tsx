@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
 import {Colors, Icons} from '../../assets';
@@ -27,15 +27,9 @@ const LoginScreen = (props: {
   const passwordChange = useCallback((text: any) => {
     setPassWord(text);
   }, []);
-  const gotoHome = () => {
+  const gotoHome = async () => {
     props.Login(phone, password);
   };
-
-  useEffect(() => {
-    if (phone.length > 10 || phone.length < 10 || phone.length === 0) {
-      Alert.alert('Thông báo', ' Số điện thoại bạn nhập vào không hợp lệ');
-    }
-  });
 
   return (
     <Container

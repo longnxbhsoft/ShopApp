@@ -4,12 +4,24 @@ import {StyleSheet} from 'react-native';
 import {TouchableOpacity, View, Text} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
 import {Colors, Metrics} from '../../assets';
-import {getInfo} from '../../reduxs/actions/Home.act';
+import {getInfo, Logout} from '../../reduxs/actions/Home.act';
 import {Container, EditAddress, Header} from '../components';
 
-const settingScreen = (props: {getInfo: () => void; info: any}) => {
+const settingScreen = (props: {
+  logout: () => void;
+  getInfo: () => void;
+  info: {
+    name: string;
+    phone: string;
+    email: string;
+    address: string;
+    sex?: string | undefined;
+    BOD?: string | undefined;
+  };
+}) => {
   const LogOut = async () => {
     await AsyncStorage.setItem('id', '');
+    props.logout();
   };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useState(() => {
@@ -44,17 +56,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: {loading: boolean; info: any}) => {
+const mapStateToProps = (state: {
+  loading: boolean;
+  info: any;
+  login: boolean;
+}) => {
   const {loading} = state;
   const {info} = state;
+  const {login} = state;
   return {
     loading: loading,
     info: info,
+    login: login,
   };
 };
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
   getInfo: () => dispatch(getInfo()),
+  logout: () => dispatch(Logout()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(settingScreen);

@@ -2,23 +2,25 @@ import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {Text, TouchableOpacity, Image, View} from 'react-native-ui-lib';
 import {Colors, Icons, Metrics} from '../../../assets';
-import 'intl';
-import 'intl/locale-data/jsonp/en';
-import {OrderList} from '../../../domain';
 
 interface Props {
-  orderHistory: [];
+  product: [
+    {
+      name: string;
+      price: {
+        salePrice: number;
+      };
+      quantity: number;
+    },
+  ];
   _id: string;
 }
 const width = Metrics.screen.width - 60;
 const ItemsProduct = (props: Props) => {
-  //let formaters = new Intl.NumberFormat('us-US');
   const [show, setShow] = useState(false);
   const HideShow = () => {
     setShow(!show);
   };
-
-  console.log(props.orderHistory);
 
   return (
     <View
@@ -41,14 +43,22 @@ const ItemsProduct = (props: Props) => {
         </TouchableOpacity>
       </View>
       {show &&
-        props.orderHistory.map(({items}: {items: OrderList}) => {
-          <View marginT-10>
-            <View row spread marginV-7>
-              <Text style={styles.font14}>{items.name}</Text>
-              <Text style={styles.font14}>{items.price.salePrice}đ</Text>
-              <Text style={styles.font14}>{items.quantity}đ</Text>
+        props.product.map(items => {
+          return (
+            <View marginT-10>
+              <View spread marginV-7 paddingB-10 style={styles.borderBottom}>
+                <Text style={styles.font14}>
+                  Tên sản phẩm: {items !== undefined ? items.name : null}
+                </Text>
+                <Text marginV-10 style={styles.font14}>
+                  Giá: {items !== undefined ? items.price.salePrice : null}đ
+                </Text>
+                <Text style={styles.font14}>
+                  Số lượng: {items !== undefined ? items.quantity : null}
+                </Text>
+              </View>
             </View>
-          </View>;
+          );
         })}
     </View>
   );
@@ -68,6 +78,10 @@ const styles = StyleSheet.create({
   boders: {
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
+  },
+  borderBottom: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: Colors.blueNavy,
   },
 });
 

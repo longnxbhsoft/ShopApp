@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert} from 'react-native';
 
 export const addToCart = (payload: any) => {
@@ -97,6 +98,7 @@ export const Login = (phone: string, password: string) => {
             type: 'LOGIN_SUCCESS',
             payload: responseJson._id,
           });
+          await AsyncStorage.setItem('id', responseJson._id);
         } else {
           dispatch({
             type: 'LOGIN_FAILED',
@@ -123,7 +125,7 @@ export const getInfo = () => {
       }),
     })
       .then(response => response.json())
-      .then(async responseJson => {
+      .then(responseJson => {
         dispatch({
           type: 'GET_INFO',
           payload: responseJson,
@@ -135,7 +137,7 @@ export const getInfo = () => {
   };
 };
 
-export const getOrder = () => {
+export const getOrder = (userID: string) => {
   return (dispatch: any) => {
     fetch('https://api.cheapsyn.top/order/getbyiduser', {
       method: 'POST',
@@ -144,11 +146,11 @@ export const getOrder = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        user: '607af217dad58f64d932d10e',
+        user: userID,
       }),
     })
       .then(response => response.json())
-      .then(async responseJson => {
+      .then(responseJson => {
         dispatch({
           type: 'GET_ORDER',
           payload: responseJson,
@@ -227,5 +229,57 @@ export const postOrder = (
       .catch(error => {
         console.error(error);
       });
+  };
+};
+
+export const DeleteCart = () => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'DELETE_CART',
+    });
+  };
+};
+
+export const IncreaseQuantity = (payload: any) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'INCREASE_QUANTITY',
+      payload,
+    });
+  };
+};
+
+export const DecreaseQuantity = (payload: any) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'DECREASE_QUANTITY',
+      payload,
+    });
+  };
+};
+
+export const DeleteItem = (payload: any) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'DELETE_ITEM',
+      payload,
+    });
+  };
+};
+
+export const CheckLogin = (payload: any) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'CHECK_LOGIN',
+      payload,
+    });
+  };
+};
+
+export const Logout = () => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'LOG_OUT',
+    });
   };
 };

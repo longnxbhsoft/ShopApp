@@ -12,6 +12,7 @@ const initialState = {
   detail: [],
   postOrder: [],
   success: false,
+  login: false,
 };
 
 const filter_records = (mainArray: any[], childArray: any[]) => {
@@ -52,6 +53,7 @@ const reducers = (
       return Object.assign({}, state, {
         dataUser: action.payload,
         loading: false,
+        login: true,
       });
     case 'LOGIN_FAILED':
       return Object.assign({}, state, {
@@ -112,6 +114,31 @@ const reducers = (
       return Object.assign({}, state, {
         ...state,
         numberCart: state.numberCart + 1,
+      });
+    case 'DELETE_CART':
+      return Object.assign({}, state, {
+        ...state,
+        numberCart: 0,
+        Carts: [],
+      });
+    case 'CHECK_LOGIN':
+      return Object.assign({}, state, {
+        ...state,
+        dataUser: action.payload,
+        login: true,
+      });
+    case 'LOG_OUT':
+      return Object.assign({}, state, {
+        ...state,
+        login: false,
+      });
+    case 'DELETE_ITEM':
+      return Object.assign({}, state, {
+        ...state,
+        numberCart: action.payload.quantity - action.payload.quantity,
+        Carts: state.Carts.filter(item => {
+          return item.product_id !== action.payload.product_id;
+        }),
       });
     case 'ADD_TO_CART_DETAIL':
       if (state.numberCart === 0) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
@@ -10,13 +10,26 @@ import {
   SuccessOrderScreens,
 } from '../screens';
 import {MainTab} from '../screens/components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {connect} from 'react-redux';
+import {CheckLogin} from '../reduxs/actions/Home.act';
 
-const Navigator = () => {
+const Navigator = (props: {checkLogin: (arg0: string) => void; login: any}) => {
   const Stack = createStackNavigator();
-  const isLogin = true;
+
+  useState(async () => {
+    try {
+      const value = await AsyncStorage.getItem('id');
+      if (value !== null) {
+        props.checkLogin(value);
+      }
+    } catch (e) {
+      // error reading value
+    }
+  });
   return (
     <NavigationContainer>
-      {isLogin ? (
+      {props.login ? (
         <Stack.Navigator>
           <Stack.Screen
             name="home"
@@ -62,4 +75,15 @@ const Navigator = () => {
   );
 };
 
-export default Navigator;
+const mapStateToProps = (state: {login?: any}) => {
+  const {login} = state;
+  return {
+    login: login,
+  };
+};
+
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  checkLogin: (payload: any) => dispatch(CheckLogin(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigator);

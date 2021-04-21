@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import {View} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
@@ -9,17 +9,18 @@ import {Container, Header} from '../components';
 import OrderItem from './components/OrderItem';
 
 const ordersScreen = (props: {
-  getOrder: () => void;
+  getOrder: (arg0: any) => void;
+  dataUser: any;
   order: readonly any[] | null | undefined;
 }) => {
   const renderItem = ({item}: {item: HistoryOrder}) => {
-    return <OrderItem _id={item._id} orderHistory={item.product} />;
+    return <OrderItem _id={item._id} product={item.product} />;
   };
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  useState(() => {
-    props.getOrder();
-  });
+  useEffect(() => {
+    props.getOrder(props.dataUser);
+  }, [props]);
 
   const renderKeyExtractor = (item: any, index: number) => index.toString();
   return (
@@ -28,7 +29,7 @@ const ordersScreen = (props: {
       backgroundBody={Colors.white}
       barStyle="dark-content">
       <Header cart={true} title={'Đơn hàng của bạn'} />
-      <View centerH flex-1 paddingV-20>
+      <View centerH flex-1>
         <FlatList
           data={props.order}
           renderItem={renderItem}
@@ -41,15 +42,17 @@ const ordersScreen = (props: {
   );
 };
 
-const mapStateToProps = (state: {order?: any}) => {
+const mapStateToProps = (state: {order?: any; dataUser: any}) => {
   const {order} = state;
+  const {dataUser} = state;
   return {
     order: order,
+    dataUser: dataUser,
   };
 };
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  getOrder: () => dispatch(getOrder()),
+  getOrder: (userId: string) => dispatch(getOrder(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ordersScreen);

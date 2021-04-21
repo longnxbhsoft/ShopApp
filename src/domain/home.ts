@@ -21,6 +21,7 @@ export interface ProductList {
 }
 
 export interface CartList {
+  product_id: string;
   image: string;
   name: string;
   quantity: number;
@@ -36,11 +37,20 @@ export interface OrderList {
     originalPrice?: string;
     salePrice?: string;
   };
-  name?: string;
+  name: string;
   quantity: number;
+  product_id: string;
 }
 
 export interface HistoryOrder {
   _id: string;
-  product: [];
+  product: [
+    {
+      name: string;
+      price: {
+        salePrice: number;
+      };
+      quantity: number;
+    },
+  ];
 }
