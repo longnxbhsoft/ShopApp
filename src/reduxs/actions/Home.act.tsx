@@ -283,3 +283,53 @@ export const Logout = () => {
     });
   };
 };
+
+export const Register = (
+  name: string,
+  phone: string,
+  password: number,
+  address: string,
+  email: string,
+  sex: string,
+  BOD: string,
+) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'REGISTER_REQUEST',
+    });
+    fetch('https://api.cheapsyn.top/user/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: name,
+        phone: phone,
+        password: password,
+        address: address,
+        email: email,
+        sex: sex,
+        BOD: BOD,
+      }),
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.success) {
+          console.log(responseJson);
+          dispatch({
+            type: 'REGISTER_SUCCESS',
+            payload: responseJson,
+          });
+        } else {
+          dispatch({
+            type: 'REGISTER_FAILED',
+            payload: responseJson.error,
+          });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+};

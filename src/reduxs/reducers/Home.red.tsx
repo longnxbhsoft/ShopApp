@@ -13,6 +13,7 @@ const initialState = {
   postOrder: [],
   success: false,
   login: false,
+  error: '',
 };
 
 const filter_records = (mainArray: any[], childArray: any[]) => {
@@ -81,6 +82,19 @@ const reducers = (
         postOrder: action.payload,
         loading: false,
         success: true,
+      });
+    case 'REGISTER_REQUEST':
+      return Object.assign({}, state, {loading: true, success: false});
+    case 'REGISTER_SUCCESS':
+      return Object.assign({}, state, {
+        loading: false,
+        success: true,
+      });
+    case 'REGISTER_FAILED':
+      return Object.assign({}, state, {
+        error: action.payload,
+        loading: false,
+        success: false,
       });
     case 'ADD_TO_CART':
       if (state.numberCart === 0) {

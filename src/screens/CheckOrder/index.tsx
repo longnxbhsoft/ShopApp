@@ -158,7 +158,6 @@ const mapStateToProps = (state: {
   const {loading} = state;
   const {success} = state;
   const {dataUser} = state;
-  console.log(dataUser);
   return {
     Carts: Carts,
     numberCart: numberCart,
