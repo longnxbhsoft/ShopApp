@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
 import {Colors} from '../../assets';
@@ -7,6 +7,8 @@ import CartItem from './components/CartItem';
 import {CartList} from '../../domain';
 import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
+import 'intl';
+import 'intl/locale-data/jsonp/en';
 
 const CartScreen = (props: {
   Carts: readonly CartList[] | null | undefined;
@@ -29,17 +31,34 @@ const CartScreen = (props: {
       />
     );
   };
+  let TotalCart = 0;
+  Object.keys(props.Carts).forEach(function (items) {
+    TotalCart +=
+      props.Carts[items].quantity * props.Carts[items].price.salePrice;
+  });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [total, setTotal] = useState(10);
+  const [disable, setDisble] = useState(true);
 
   const renderKeyExtractor = (item: any, index: number) => index.toString();
 
   const navigation = useNavigation();
 
   const onNext = () => {
-    navigation.navigate('address');
+    navigation.navigate('address', {
+      total: TotalCart,
+    });
   };
+
+  let formaters = new Intl.NumberFormat('us-US');
+
+  useEffect(() => {
+    if (TotalCart === 0) {
+      setDisble(true);
+    } else {
+      setDisble(false);
+    }
+  }, [TotalCart]);
+
   return (
     <Container
       backgroundColor={Colors.white}
@@ -64,11 +83,11 @@ const CartScreen = (props: {
             </View>
             <View row spread>
               <Text style={styles.font15}>Tổng</Text>
-              <Text style={styles.font15}>100,000 đ</Text>
+              <Text style={styles.font15}>{formaters.format(TotalCart)} đ</Text>
             </View>
           </View>
           <ButtonAccept
-            disable={total === 0 ? true : false}
+            disable={disable}
             onPress={onNext}
             iconLeft={false}
             title={'Thanh toán'}

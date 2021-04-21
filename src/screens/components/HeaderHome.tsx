@@ -16,6 +16,7 @@ export interface Props {
   all_category?: readonly CategoriesList[] | null | undefined;
   onChangeText?: (text: any) => void;
   parentCallback?: any;
+  showModal?: () => void;
 }
 
 const Header: FC<Props> = ({
@@ -29,6 +30,7 @@ const Header: FC<Props> = ({
   all_category,
   onChangeText,
   parentCallback,
+  showModal,
 }) => {
   const [isSelect, setSelected] = useState('6078616beb81c312682e0b8c');
 
@@ -81,7 +83,9 @@ const Header: FC<Props> = ({
             row
             paddingH-31
             spread>
-            <Image source={Icons.home.menu} />
+            <TouchableOpacity onPress={showModal}>
+              <Image source={Icons.home.menu} />
+            </TouchableOpacity>
             <Text style={styles.name}>
               Cheap<Text color={Colors.orangeCarrot}>Syn</Text>
             </Text>

@@ -10,6 +10,7 @@ import {
   getAllCategories,
   getAllProducts,
   addToCart,
+  getInfo,
 } from '../../reduxs/actions/Home.act';
 import {connect} from 'react-redux';
 
@@ -26,6 +27,7 @@ const HomeScreen = (props: {
   all_products: readonly ProductList[] | null | undefined;
   loading: boolean;
   addToCart: (arg0: any) => void;
+  getInfo: () => void;
 }) => {
   const navigation = useNavigation();
 
@@ -51,12 +53,15 @@ const HomeScreen = (props: {
   useEffect(() => {
     props.getAllProducts(name, category, startPrice, stopPrice, ofset);
     props.getAllCategories();
+    props.getInfo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, name, ofset, startPrice, stopPrice]);
 
   const renderItem = ({item}: {item: ProductList}) => {
     const gotoDetail = () => {
-      navigation.navigate('Detail');
+      navigation.navigate('Detail', {
+        id: item._id,
+      });
     };
 
     const AddsToCart = () => {
@@ -137,6 +142,7 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
   ) => dispatch(getAllProducts(name, category, startPrice, stopPrice, offset)),
   getAllCategories: () => dispatch(getAllCategories()),
   addToCart: (item: any) => dispatch(addToCart(item)),
+  getInfo: () => dispatch(getInfo()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

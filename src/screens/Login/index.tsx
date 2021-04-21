@@ -1,23 +1,41 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
+import {connect} from 'react-redux';
 import {Colors, Icons} from '../../assets';
-import {Container} from '../components';
+import {Login} from '../../reduxs/actions/Home.act';
+import {Container, Loader} from '../components';
 import {Inputs, ButtonAccept} from '../components';
 
 const LoginScreen = (props: {
-  navigation: {navigate: (arg0: string) => void};
+  Login: (arg0: string, arg1: string) => void;
+  loading: any;
 }) => {
-  const createAnAcout = () => {
-    props.navigation.navigate('registers');
-  };
-
   const navigation = useNavigation();
 
-  const gotoHome = () => {
-    navigation.navigate('home');
+  const createAnAcout = () => {
+    navigation.navigate('registers');
   };
+  const [phone, setPhone] = useState('');
+
+  const [password, setPassWord] = useState('');
+
+  const phoneChange = useCallback((text: any) => {
+    setPhone(text);
+  }, []);
+  const passwordChange = useCallback((text: any) => {
+    setPassWord(text);
+  }, []);
+  const gotoHome = () => {
+    props.Login(phone, password);
+  };
+
+  useEffect(() => {
+    if (phone.length > 10 || phone.length < 10 || phone.length === 0) {
+      Alert.alert('Thông báo', ' Số điện thoại bạn nhập vào không hợp lệ');
+    }
+  });
 
   return (
     <Container
@@ -25,6 +43,7 @@ const LoginScreen = (props: {
       backgroundBody={Colors.white}
       barStyle="dark-content">
       <View flex-8 style={styles.container} centerH>
+        <Loader loading={props.loading} />
         <View height={60} marginT-100 center>
           <Text style={styles.fonts}>Đăng nhập</Text>
         </View>
@@ -34,8 +53,14 @@ const LoginScreen = (props: {
             leftIcons={Icons.login.email}
             placeholder={'Số điện thoại'}
             keyboardType={'phone-pad'}
+            onChangeText={phoneChange}
           />
-          <Inputs leftIcons={Icons.login.pass} placeholder={'Mật khẩu'} />
+          <Inputs
+            onChangeText={passwordChange}
+            leftIcons={Icons.login.pass}
+            placeholder={'Mật khẩu'}
+            isSecure={true}
+          />
         </View>
         <View flex-1 />
         <TouchableOpacity>
@@ -73,4 +98,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+const mapStateToProps = (state: {loading: boolean}) => {
+  const {loading} = state;
+  return {
+    loading: loading,
+  };
+};
+
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  Login: (phone: string, password: string) => dispatch(Login(phone, password)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

@@ -1,18 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
 import {View} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
 import {Colors} from '../../assets';
 import {HistoryOrder} from '../../domain';
-import {getAllCategories} from '../../reduxs/actions/Home.act';
-import {OrderHistory} from '../../untils/dummyData';
+import {getOrder} from '../../reduxs/actions/Home.act';
 import {Container, Header} from '../components';
 import OrderItem from './components/OrderItem';
 
-const ordersScreen = () => {
+const ordersScreen = (props: {
+  getOrder: () => void;
+  order: readonly any[] | null | undefined;
+}) => {
   const renderItem = ({item}: {item: HistoryOrder}) => {
-    return <OrderItem id={item.id} orderHistory={item.history} />;
+    return <OrderItem _id={item._id} orderHistory={item.product} />;
   };
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useState(() => {
+    props.getOrder();
+  });
+
   const renderKeyExtractor = (item: any, index: number) => index.toString();
   return (
     <Container
@@ -22,7 +30,7 @@ const ordersScreen = () => {
       <Header cart={true} title={'Đơn hàng của bạn'} />
       <View centerH flex-1 paddingV-20>
         <FlatList
-          data={OrderHistory}
+          data={props.order}
           renderItem={renderItem}
           keyExtractor={renderKeyExtractor}
           showsVerticalScrollIndicator={false}
@@ -33,17 +41,15 @@ const ordersScreen = () => {
   );
 };
 
-const mapStateToProps = (state: {all_products?: any; all_categories?: any}) => {
-  const {all_products} = state;
-  const {all_categories} = state;
+const mapStateToProps = (state: {order?: any}) => {
+  const {order} = state;
   return {
-    all_products: all_products,
-    all_categories: all_categories,
+    order: order,
   };
 };
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  getAllCategories: () => dispatch(getAllCategories()),
+  getOrder: () => dispatch(getOrder()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ordersScreen);

@@ -11,8 +11,9 @@ const widths = Metrics.screen.width - 60;
 interface Props {
   leftIcons: ImageSourcePropType;
   placeholder: string;
-  onChangeText?: () => void;
+  onChangeText?: (text: any) => void;
   keyboardType?: KeyboardTypeOptions | undefined;
+  isSecure?: boolean;
 }
 const LoginScreen = (props: Props) => {
   return (
@@ -31,6 +32,7 @@ const LoginScreen = (props: Props) => {
           placeholder={props.placeholder}
           onChangeText={props.onChangeText}
           keyboardType={props.keyboardType}
+          secureTextEntry={props.isSecure}
         />
       </View>
     </View>

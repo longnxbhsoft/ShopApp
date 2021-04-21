@@ -58,7 +58,7 @@ const CartProduct = (props: Props) => {
             </Text>
             <View row spread>
               <Text marginL-10 marginV-5 color={Colors.blueNavy}>
-                Thành Tiền:{' '}
+                Tổng:{' '}
                 <Text color={Colors.redAlizarin} style={styles.fonts}>
                   {formaters.format(props.total)}
                 </Text>

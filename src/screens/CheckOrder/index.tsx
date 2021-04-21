@@ -1,12 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
 import {Colors, Metrics} from '../../assets';
 import {CartList} from '../../domain';
 import List from './components/List';
-import {ButtonAccept, Container, Header} from '../components';
+import {ButtonAccept, Container, Header, Loader} from '../components';
 import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
+import 'intl';
+import 'intl/locale-data/jsonp/en';
+import {getDetail, postOrder} from '../../reduxs/actions/Home.act';
 
 const CheckOrderScreens = (props: {
   Carts: readonly CartList[] | null | undefined;
@@ -17,12 +20,23 @@ const CheckOrderScreens = (props: {
     | React.ReactPortal
     | null
     | undefined;
+  route: {params: {name: any; phone: any; address: any; total: any}};
+  loading: boolean;
+  success: boolean;
+  postOrder: (
+    arg0: any,
+    arg1: string,
+    arg2: any,
+    arg3: any,
+    arg4: any,
+    arg5: any,
+    arg6: any,
+  ) => void;
 }) => {
   const navigation = useNavigation();
 
-  const Order = () => {
-    navigation.navigate('success');
-  };
+  let formaters = new Intl.NumberFormat('us-US');
+
   const renderItem = ({item}: {item: CartList}) => {
     return (
       <List
@@ -34,8 +48,34 @@ const CheckOrderScreens = (props: {
       />
     );
   };
+  const carts = props.Carts;
+
+  const quantity = props.numberCart;
+
+  const name = props.route.params.name;
+
+  const phone = props.route.params.phone;
+
+  const address = props.route.params.address;
+
+  const total = props.route.params.total;
+
   const width = Metrics.screen.width;
+
+  const userID = '607af217dad58f64d932d10e';
+
   const renderKeyExtractor = (item: any, index: number) => index.toString();
+
+  const Order = () => {
+    props.postOrder(carts, userID, quantity, total, address, phone, name);
+  };
+
+  useEffect(() => {
+    if (props.success === true) {
+      navigation.navigate('success');
+    }
+  });
+
   return (
     <Container
       backgroundColor={Colors.white}
@@ -47,6 +87,7 @@ const CheckOrderScreens = (props: {
         delivery={true}
         active={2}
       />
+      <Loader loading={props.loading} />
       <View flex-1 centerH>
         <View flex-6 centerH>
           <FlatList
@@ -75,7 +116,7 @@ const CheckOrderScreens = (props: {
             </View>
             <View row spread>
               <Text style={styles.font15}>Tổng</Text>
-              <Text style={styles.font15}>100,000 đ</Text>
+              <Text style={styles.font15}>{formaters.format(total)} đ</Text>
             </View>
           </View>
           <ButtonAccept
@@ -101,15 +142,35 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: {Carts?: any; numberCart?: any}) => {
+const mapStateToProps = (state: {
+  Carts?: any;
+  numberCart?: any;
+  loading: boolean;
+  success: boolean;
+}) => {
   const {Carts} = state;
   const {numberCart} = state;
+  const {loading} = state;
+  const {success} = state;
   return {
     Carts: Carts,
     numberCart: numberCart,
+    loading: loading,
+    success: success,
   };
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  getDetail: (id: string) => dispatch(getDetail(id)),
+  postOrder: (
+    cart: [],
+    userID: string,
+    quantity: number,
+    total: number,
+    address: string,
+    phone: string,
+    name: string,
+  ) => dispatch(postOrder(cart, userID, quantity, total, address, phone, name)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CheckOrderScreens);

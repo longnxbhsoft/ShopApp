@@ -6,6 +6,12 @@ const initialState = {
   loading: false,
   numberCart: 0,
   Carts: [],
+  dataUser: [],
+  info: [],
+  order: [],
+  detail: [],
+  postOrder: [],
+  success: false,
 };
 
 const filter_records = (mainArray: any[], childArray: any[]) => {
@@ -40,6 +46,40 @@ const reducers = (
       return Object.assign({}, state, {
         all_categories: filter_records(action.payload, state.category),
       });
+    case 'LOGIN_REQUEST':
+      return Object.assign({}, state, {loading: true});
+    case 'LOGIN_SUCCESS':
+      return Object.assign({}, state, {
+        dataUser: action.payload,
+        loading: false,
+      });
+    case 'LOGIN_FAILED':
+      return Object.assign({}, state, {
+        loading: false,
+      });
+    case 'GET_INFO':
+      return Object.assign({}, state, {
+        info: action.payload,
+      });
+    case 'GET_ORDER':
+      return Object.assign({}, state, {
+        order: action.payload,
+      });
+    case 'GET_DETAIL_REQUEST':
+      return Object.assign({}, state, {loading: true});
+    case 'GET_DETAIL_SUCCESS':
+      return Object.assign({}, state, {
+        detail: action.payload,
+        loading: false,
+      });
+    case 'POST_ORDER_REQUEST':
+      return Object.assign({}, state, {loading: true, success: false});
+    case 'POST_ORDER_SUCCESS':
+      return Object.assign({}, state, {
+        postOrder: action.payload,
+        loading: false,
+        success: true,
+      });
     case 'ADD_TO_CART':
       if (state.numberCart === 0) {
         let cart = {
@@ -47,7 +87,7 @@ const reducers = (
           quantity: 1,
           name: action.payload.name,
           image: action.payload.images[0],
-          price: action.payload.price.salePrice,
+          price: action.payload.price,
         };
         state.Carts.push(cart);
       } else {
@@ -64,6 +104,39 @@ const reducers = (
             quantity: 1,
             name: action.payload.name,
             image: action.payload.images[0],
+            price: action.payload.price,
+          };
+          state.Carts.push(_cart);
+        }
+      }
+      return Object.assign({}, state, {
+        ...state,
+        numberCart: state.numberCart + 1,
+      });
+    case 'ADD_TO_CART_DETAIL':
+      if (state.numberCart === 0) {
+        let cart = {
+          product_id: action.payload._id,
+          quantity: 1,
+          name: action.payload.name,
+          image: action.payload.images.src,
+          price: action.payload.price,
+        };
+        state.Carts.push(cart);
+      } else {
+        let check = false;
+        state.Carts.map((item, key) => {
+          if (item.product_id === action.payload._id) {
+            state.Carts[key].quantity++;
+            check = true;
+          }
+        });
+        if (!check) {
+          let _cart = {
+            product_id: action.payload._id,
+            quantity: 1,
+            name: action.payload.name,
+            image: action.payload.images.src,
             price: action.payload.price,
           };
           state.Carts.push(_cart);

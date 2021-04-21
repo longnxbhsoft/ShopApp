@@ -5842,6 +5842,11 @@ react-native-animatable@^1.1.0:
   dependencies:
     prop-types "^15.7.2"
 
+react-native-bottom-modal@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-bottom-modal/-/react-native-bottom-modal-0.5.6.tgz#dc2e55c697865cb4ef9b44d389cf1499651345dc"
+  integrity sha512-e1cpY5t+kF/dHHvOfV1wfsE4mUziA8KXZR0tGfYSUrl85AZmVe2h5+zDtDBDG5qBnPiIyHkAUJbB6y6FcPblnQ==
+
 react-native-cli@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-native-cli/-/react-native-cli-2.0.1.tgz#f2cd3c7aa1b83828cdfba630e2dfd817df766d54"

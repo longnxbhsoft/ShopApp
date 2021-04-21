@@ -1,7 +1,18 @@
+import {Alert} from 'react-native';
+
 export const addToCart = (payload: any) => {
   return (dispatch: any) => {
     dispatch({
       type: 'ADD_TO_CART',
+      payload,
+    });
+  };
+};
+
+export const addToCartDetail = (payload: any) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'ADD_TO_CART_DETAIL',
       payload,
     });
   };
@@ -55,6 +66,162 @@ export const getAllCategories = () => {
         dispatch({
           type: 'GET_ALL_CATEGORIES',
           payload: responseJson,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+};
+
+export const Login = (phone: string, password: string) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'LOGIN_REQUEST',
+    });
+    fetch('https://api.cheapsyn.top/user/signin', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        phone: phone,
+        password: password,
+      }),
+    })
+      .then(response => response.json())
+      .then(async responseJson => {
+        if (responseJson.success) {
+          dispatch({
+            type: 'LOGIN_SUCCESS',
+            payload: responseJson._id,
+          });
+        } else {
+          dispatch({
+            type: 'LOGIN_FAILED',
+          });
+          Alert.alert('Thông báo', responseJson.error);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+};
+
+export const getInfo = () => {
+  return (dispatch: any) => {
+    fetch('https://api.cheapsyn.top/user/getbyid', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: '607f0f523c51bf1a61921831',
+      }),
+    })
+      .then(response => response.json())
+      .then(async responseJson => {
+        dispatch({
+          type: 'GET_INFO',
+          payload: responseJson,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+};
+
+export const getOrder = () => {
+  return (dispatch: any) => {
+    fetch('https://api.cheapsyn.top/order/getbyiduser', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user: '607af217dad58f64d932d10e',
+      }),
+    })
+      .then(response => response.json())
+      .then(async responseJson => {
+        dispatch({
+          type: 'GET_ORDER',
+          payload: responseJson,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+};
+
+export const getDetail = (id: string) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'GET_DETAIL_REQUEST',
+    });
+    fetch('https://api.cheapsyn.top/product/getbyid', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: id,
+      }),
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        dispatch({
+          type: 'GET_DETAIL_SUCCESS',
+          payload: responseJson,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+};
+
+export const postOrder = (
+  cart: [],
+  userID: string,
+  quantity: number,
+  total: number,
+  address: string,
+  phone: string,
+  name: string,
+) => {
+  return (dispatch: any) => {
+    dispatch({
+      type: 'POST_ORDER_REQUEST',
+    });
+    fetch('https://api.cheapsyn.top/order/add', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        product: cart,
+        user: userID,
+        quantity: quantity,
+        total: total,
+        address: address,
+        phone: phone,
+        name: name,
+      }),
+    })
+      .then(response => response.json())
+      .then(async responseJson => {
+        dispatch({
+          type: 'POST_ORDER_SUCCESS',
+          payload: responseJson._id,
         });
       })
       .catch(error => {

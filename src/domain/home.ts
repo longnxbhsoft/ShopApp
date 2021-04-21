@@ -32,12 +32,15 @@ export interface CartList {
 }
 
 export interface OrderList {
-  id: string;
-  name: string;
-  price: number;
+  price: {
+    originalPrice?: string;
+    salePrice?: string;
+  };
+  name?: string;
+  quantity: number;
 }
 
 export interface HistoryOrder {
-  id: string;
-  history: [];
+  _id: string;
+  product: [];
 }

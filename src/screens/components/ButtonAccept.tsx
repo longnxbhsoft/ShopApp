@@ -4,7 +4,7 @@ import {Text, TouchableOpacity, Image} from 'react-native-ui-lib';
 import {Colors, Icons, Metrics} from '../../assets';
 
 interface Props {
-  onPress?: () => void;
+  onPress?: (item: any) => void;
   title: string;
   iconLeft: boolean;
   disable?: boolean;

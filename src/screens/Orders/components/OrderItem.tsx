@@ -8,26 +8,29 @@ import {OrderList} from '../../../domain';
 
 interface Props {
   orderHistory: [];
-  id: string;
+  _id: string;
 }
 const width = Metrics.screen.width - 60;
 const ItemsProduct = (props: Props) => {
-  let formaters = new Intl.NumberFormat('us-US');
+  //let formaters = new Intl.NumberFormat('us-US');
   const [show, setShow] = useState(false);
   const HideShow = () => {
     setShow(!show);
   };
+
+  console.log(props.orderHistory);
 
   return (
     <View
       width={width}
       paddingV-20
       paddingH-30
+      marginV-10
       backgroundColor={Colors.blueDark10}
       br20>
       <View row spread centerV>
         <Text style={styles.fonts} numberOfLines={1}>
-          Đơn hàng #{props.id}
+          Đơn hàng #{props._id}
         </Text>
         <TouchableOpacity onPress={HideShow}>
           {show ? (
@@ -38,11 +41,12 @@ const ItemsProduct = (props: Props) => {
         </TouchableOpacity>
       </View>
       {show &&
-        props.orderHistory.map(({item}: {item: OrderList}) => {
+        props.orderHistory.map(({items}: {items: OrderList}) => {
           <View marginT-10>
             <View row spread marginV-7>
-              <Text style={styles.font14}>{item.name}</Text>
-              <Text style={styles.font14}>{formaters.format(item.price)}đ</Text>
+              <Text style={styles.font14}>{items.name}</Text>
+              <Text style={styles.font14}>{items.price.salePrice}đ</Text>
+              <Text style={styles.font14}>{items.quantity}đ</Text>
             </View>
           </View>;
         })}
