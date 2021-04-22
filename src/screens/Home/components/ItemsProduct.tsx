@@ -13,13 +13,12 @@ interface Props {
   goToDetail?: () => void;
   addCart?: () => void;
 }
-
+const width = Metrics.screen.width / 2.5;
 const ItemsProduct = (props: Props) => {
   let formaters = new Intl.NumberFormat('us-US');
   // const percent = (props.discout / props.price) * 100;
-  const width = Metrics.screen.width / 2.5;
   return (
-    <Card width={width} height={210} br30 marginV-10>
+    <Card width={width} paddingB-15 br30 marginV-10>
       <TouchableOpacity flex-1 onPress={props.goToDetail}>
         <View flex-6>
           <Image
@@ -90,8 +89,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
   },
   images: {
-    width: 150,
-    height: '100%',
+    width: width,
+    height: 120,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },

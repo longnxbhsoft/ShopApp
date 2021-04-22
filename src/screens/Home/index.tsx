@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {View} from 'react-native-ui-lib';
 import {Colors} from '../../assets';
-import {Container, HeaderHome, Loader} from '../components';
+import {Container, HeaderHome} from '../components';
 import {ItemsProduct} from './components';
 import {CategoriesList, ProductList} from '../../domain';
 import {ActivityIndicator, Alert, FlatList, StyleSheet} from 'react-native';
@@ -23,16 +23,19 @@ const HomeScreen = (props: {
     arg4: number,
   ) => void;
   getAllCategories: () => void;
-  all_categories: readonly CategoriesList[] | null | undefined;
+  getInfo: (arg0: any) => void;
+  id: any;
+  addToCart: (arg0: ProductList) => void;
   all_products: readonly ProductList[] | null | undefined;
-  loading: boolean;
-  addToCart: (arg0: any) => void;
-  getInfo: () => void;
+  loading: any;
+  all_categories: readonly CategoriesList[] | null | undefined;
 }) => {
   const navigation = useNavigation();
   const [offset, setOffset] = useState(1);
 
   const [name, setName] = useState('');
+
+  const [searchs, setSearch] = useState(false);
 
   const [category, setCate] = useState('6078616beb81c312682e0b8c');
 
@@ -45,6 +48,12 @@ const HomeScreen = (props: {
     setCate(childData);
   };
 
+  const callbackFunctions = (
+    childDatas: boolean | ((prevState: boolean) => boolean),
+  ) => {
+    setSearch(childDatas);
+  };
+
   const search = useCallback((text: any) => {
     setName(text);
   }, []);
@@ -52,9 +61,12 @@ const HomeScreen = (props: {
   useEffect(() => {
     props.getAllProducts(name, category, startPrice, stopPrice, offset);
     props.getAllCategories();
-    props.getInfo();
+    props.getInfo(props.id);
+    if (searchs === false) {
+      setName('');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, name, startPrice, stopPrice]);
+  }, [category, searchs, name, startPrice, stopPrice, offset]);
 
   const renderItem = ({item}: {item: ProductList}) => {
     const gotoDetail = () => {
@@ -80,9 +92,17 @@ const HomeScreen = (props: {
     );
   };
 
+  const count =
+    props.all_products?.length !== undefined ? props.all_products?.length : 0;
+
   const getData = () => {
-    console.log(offset);
-    setOffset(offset + 1);
+    if (!props.loading) {
+      if (offset * 10 <= count) {
+        setOffset(offset + 1);
+      } else {
+        setOffset(offset);
+      }
+    }
   };
 
   const renderFooter = () => {
@@ -103,10 +123,10 @@ const HomeScreen = (props: {
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <Loader loading={props.loading} />
       <HeaderHome
         home={true}
         parentCallback={callbackFunction}
+        parentCallbacks={callbackFunctions}
         homechild={true}
         all_category={props.all_categories}
         onChangeText={search}
@@ -122,7 +142,7 @@ const HomeScreen = (props: {
           columnWrapperStyle={styles.products}
           ListFooterComponent={renderFooter}
           onEndReached={getData}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.2}
         />
       </View>
     </Container>
@@ -145,14 +165,17 @@ const mapStateToProps = (state: {
   all_products?: any;
   all_categories?: any;
   loading: boolean;
+  dataUser: any;
 }) => {
   const {all_products} = state;
   const {all_categories} = state;
   const {loading} = state;
+  const {dataUser} = state;
   return {
     all_products: all_products,
     all_categories: all_categories,
     loading: loading,
+    id: dataUser,
   };
 };
 
@@ -166,7 +189,7 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
   ) => dispatch(getAllProducts(name, category, startPrice, stopPrice, offset)),
   getAllCategories: () => dispatch(getAllCategories()),
   addToCart: (item: any) => dispatch(addToCart(item)),
-  getInfo: () => dispatch(getInfo()),
+  getInfo: (userId: string) => dispatch(getInfo(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

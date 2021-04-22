@@ -1,15 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity, View, Text} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
 import {Colors, Metrics} from '../../assets';
-import {getInfo, Logout} from '../../reduxs/actions/Home.act';
+import {Logout} from '../../reduxs/actions/Home.act';
 import {Container, EditAddress, Header} from '../components';
 
 const settingScreen = (props: {
   logout: () => void;
-  getInfo: () => void;
   info: {
     name: string;
     phone: string;
@@ -23,10 +22,7 @@ const settingScreen = (props: {
     await AsyncStorage.setItem('id', '');
     props.logout();
   };
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useState(() => {
-    props.getInfo();
-  });
+
   return (
     <Container
       backgroundColor={Colors.white}
@@ -72,7 +68,6 @@ const mapStateToProps = (state: {
 };
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  getInfo: () => dispatch(getInfo()),
   logout: () => dispatch(Logout()),
 });
 

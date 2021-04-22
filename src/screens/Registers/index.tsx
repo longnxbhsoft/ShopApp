@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import React, {useCallback, useState} from 'react';
 import {
   Alert,
@@ -14,7 +15,6 @@ import {ButtonAccept, Container, Loader} from '../components';
 import {Inputs} from '../components';
 
 const RegisterScreen = (props: {
-  navigation: {goBack: () => void};
   register: (
     arg0: string,
     arg1: string,
@@ -28,8 +28,9 @@ const RegisterScreen = (props: {
   error: string | undefined;
   loading: any;
 }) => {
+  const navigation = useNavigation();
   const goToLogin = () => {
-    props.navigation.goBack();
+    navigation.goBack();
   };
 
   const [name, setName] = useState('');
@@ -75,11 +76,56 @@ const RegisterScreen = (props: {
   }, []);
 
   const Submit = () => {
+    if (!phone) {
+      Alert.alert('Vui lòng nhập vào số điện thoại của bạn!');
+    }
+    if (!name) {
+      Alert.alert('Vui lòng nhập vào Họ và tên!');
+    }
+    if (!password) {
+      Alert.alert('Vui lòng nhập vào mật khẩu!');
+    }
+    if (!address) {
+      Alert.alert('Vui lòng nhập vào địa chỉ cụ thể!');
+    }
+    if (!birthday) {
+      Alert.alert(
+        'Vui lòng nhập vào ngày tháng năm sinh của bạn (năm-tháng-ngày)!',
+      );
+    }
+    if (!sex) {
+      Alert.alert('Vui lòng nhập vào giới tính!');
+    }
+    if (!email) {
+      Alert.alert('Vui lòng nhập vào email của bạn!');
+    }
+
     props.register(name, phone, password, address, email, sex, birthday);
     if (props.success) {
-      Alert.alert('Thông báo', 'Đăng kí tài khoản thành công!');
+      Alert.alert(
+        'Thông báo',
+        'Đăng kí tài khoản thành công! Vui lòng đăng nhập để tiếp tục!',
+        [
+          {
+            text: 'Trở lại đăng nhập',
+            onPress: () => {
+              navigation.navigate('login');
+            },
+          },
+        ],
+      );
+      setName('');
+      setPhone('');
+      setPassWord('');
+      setAddress('');
+      setBirth('');
+      setSex('');
+      setEmail('');
     } else {
-      Alert.alert('Thông báo', props.error);
+      Alert.alert(
+        'Thông báo',
+        'Đăng kí thất bại, vui lòng kiểm tra lại thông tin.',
+      );
     }
   };
   return (
@@ -87,7 +133,7 @@ const RegisterScreen = (props: {
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <KeyboardAvoidingView style={styles.keyView} behavior={'padding'}>
+      <KeyboardAvoidingView style={styles.keyView} behavior={'height'}>
         <Loader loading={props.loading} />
         <View flex-9 style={styles.container} centerH>
           <View flex-2 />
@@ -123,7 +169,7 @@ const RegisterScreen = (props: {
             />
             <Inputs
               leftIcons={Icons.login.pass}
-              placeholder={'Ngày sinh'}
+              placeholder={'Ngày sinh: Năm-Tháng-ngày'}
               onChangeText={birthChange}
             />
             <Inputs

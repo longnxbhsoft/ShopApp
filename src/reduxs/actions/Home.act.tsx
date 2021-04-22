@@ -112,7 +112,7 @@ export const Login = (phone: string, password: string) => {
   };
 };
 
-export const getInfo = () => {
+export const getInfo = (userID: string) => {
   return (dispatch: any) => {
     fetch('https://api.cheapsyn.top/user/getbyid', {
       method: 'POST',
@@ -121,7 +121,7 @@ export const getInfo = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        _id: '607f0f523c51bf1a61921831',
+        _id: userID,
       }),
     })
       .then(response => response.json())

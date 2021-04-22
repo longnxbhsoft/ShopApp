@@ -16,6 +16,7 @@ export interface Props {
   all_category?: readonly CategoriesList[] | null | undefined;
   onChangeText?: (text: any) => void;
   parentCallback?: any;
+  parentCallbacks?: any;
   showModal?: () => void;
 }
 
@@ -30,6 +31,7 @@ const Header: FC<Props> = ({
   all_category,
   onChangeText,
   parentCallback,
+  parentCallbacks,
   showModal,
 }) => {
   const [isSelect, setSelected] = useState('6078616beb81c312682e0b8c');
@@ -38,6 +40,7 @@ const Header: FC<Props> = ({
 
   useEffect(() => {
     parentCallback(isSelect);
+    parentCallbacks(search);
   });
 
   const renderItem = ({item}: {item: HeaderList}) => {
@@ -109,6 +112,8 @@ const Header: FC<Props> = ({
                   <TextInput
                     onChangeText={onChangeText}
                     placeholder={'Nhập vào tự khoá tìm kiếm...'}
+                    placeholderTextColor={Colors.blueDark}
+                    style={styles.colors}
                   />
                 </View>
               </View>
@@ -228,6 +233,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '500',
     color: Colors.orangeCarrot,
+  },
+  colors: {
+    color: Colors.blueDark,
   },
 });
 
