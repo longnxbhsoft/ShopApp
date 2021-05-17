@@ -17,6 +17,10 @@ const LoginScreen = (props: {
   const createAnAcout = () => {
     navigation.navigate('registers');
   };
+
+  const FbLogin = () => {
+    navigation.navigate('fblogin');
+  };
   const [phone, setPhone] = useState('');
 
   const [password, setPassWord] = useState('');
@@ -57,7 +61,7 @@ const LoginScreen = (props: {
           />
         </View>
         <View flex-1 />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={FbLogin}>
           <Text color={Colors.blueNavy}>Quên mật khẩu?</Text>
         </TouchableOpacity>
         <View flex-2 />

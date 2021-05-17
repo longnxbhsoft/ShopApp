@@ -5,6 +5,7 @@ import {
   addressConfirmScreen,
   CheckOrderScreens,
   DetailScreen,
+  FBScreen,
   loginScreens,
   registerScreens,
   SuccessOrderScreens,
@@ -68,6 +69,11 @@ const Navigator = (props: {checkLogin: (arg0: string) => void; login: any}) => {
             name="registers"
             options={{headerShown: false}}
             component={registerScreens}
+          />
+          <Stack.Screen
+            name="fblogin"
+            options={{headerShown: false}}
+            component={FBScreen}
           />
         </Stack.Navigator>
       )}

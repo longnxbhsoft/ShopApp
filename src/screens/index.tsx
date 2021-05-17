@@ -9,3 +9,4 @@ export {default as addressConfirmScreen} from './AddressCofirm';
 export {default as CheckOrderScreens} from './CheckOrder';
 export {default as SuccessOrderScreens} from './SuccessOrder';
 export {default as DetailScreen} from './Detail';
+export {default as FBScreen} from './ConnectFB';
