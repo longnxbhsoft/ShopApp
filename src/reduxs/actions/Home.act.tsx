@@ -96,7 +96,7 @@ export const Login = (phone: string, password: string) => {
         if (responseJson.success) {
           dispatch({
             type: 'LOGIN_SUCCESS',
-            payload: responseJson._id,
+            payload: responseJson,
           });
           await AsyncStorage.setItem('id', responseJson._id);
         } else {
@@ -290,8 +290,6 @@ export const Register = (
   password: number,
   address: string,
   email: string,
-  sex: string,
-  BOD: string,
 ) => {
   return (dispatch: any) => {
     dispatch({
@@ -309,8 +307,8 @@ export const Register = (
         password: password,
         address: address,
         email: email,
-        sex: sex,
-        BOD: BOD,
+        sex: 'men',
+        BOD: '2020-10-03',
       }),
     })
       .then(response => response.json())

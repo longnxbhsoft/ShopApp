@@ -61,12 +61,15 @@ const HomeScreen = (props: {
   useEffect(() => {
     props.getAllProducts(name, category, startPrice, stopPrice, offset);
     props.getAllCategories();
-    props.getInfo(props.id);
     if (searchs === false) {
       setName('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, searchs, name, startPrice, stopPrice, offset]);
+
+  useEffect(() => {
+    props.getInfo(props.id);
+  }, [props]);
 
   const renderItem = ({item}: {item: ProductList}) => {
     const gotoDetail = () => {
@@ -77,7 +80,7 @@ const HomeScreen = (props: {
 
     const AddsToCart = () => {
       props.addToCart(item);
-      Alert.alert('Thông báo', 'Thêm sản phầm vào giỏ hàng thành công!');
+      Alert.alert('Messages', 'The product has been added to cart');
     };
 
     return (

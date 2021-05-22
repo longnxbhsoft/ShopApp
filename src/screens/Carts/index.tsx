@@ -67,7 +67,7 @@ const CartScreen = (props: {
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <Header cart={true} title={'Giỏ hàng'} />
+      <Header cart={true} title={'Carts'} />
       <View flex-1 centerH>
         <View flex-8 centerH>
           <FlatList
@@ -81,11 +81,11 @@ const CartScreen = (props: {
         <View flex-3 spread paddingT-15>
           <View flex-3>
             <View row spread marginV-12>
-              <Text style={styles.font15}>Số sản phẩm</Text>
+              <Text style={styles.font15}>Number</Text>
               <Text style={styles.font15}>{props.numberCart}</Text>
             </View>
             <View row spread>
-              <Text style={styles.font15}>Tổng</Text>
+              <Text style={styles.font15}>Total</Text>
               <Text style={styles.font15}>{formaters.format(TotalCart)} đ</Text>
             </View>
           </View>
@@ -93,7 +93,7 @@ const CartScreen = (props: {
             disable={disable}
             onPress={onNext}
             iconLeft={false}
-            title={'Thanh toán'}
+            title={'Payment'}
           />
         </View>
       </View>

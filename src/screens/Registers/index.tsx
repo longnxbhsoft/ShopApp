@@ -21,11 +21,8 @@ const RegisterScreen = (props: {
     arg2: string,
     arg3: string,
     arg4: string,
-    arg5: string,
-    arg6: string,
   ) => void;
   success: any;
-  error: string | undefined;
   loading: any;
 }) => {
   const navigation = useNavigation();
@@ -41,10 +38,6 @@ const RegisterScreen = (props: {
 
   const [address, setAddress] = useState('');
 
-  const [sex, setSex] = useState('');
-
-  const [birthday, setBirth] = useState('');
-
   const [email, setEmail] = useState('');
 
   const phoneChange = useCallback((text: any) => {
@@ -59,16 +52,8 @@ const RegisterScreen = (props: {
     setAddress(text);
   }, []);
 
-  const sexChange = useCallback((text: any) => {
-    setSex(text);
-  }, []);
-
   const emailChange = useCallback((text: any) => {
     setEmail(text);
-  }, []);
-
-  const birthChange = useCallback((text: any) => {
-    setBirth(text);
   }, []);
 
   const passwordChange = useCallback((text: any) => {
@@ -77,54 +62,40 @@ const RegisterScreen = (props: {
 
   const Submit = () => {
     if (!phone) {
-      Alert.alert('Vui lòng nhập vào số điện thoại của bạn!');
+      Alert.alert('Input your phone number!');
     }
     if (!name) {
-      Alert.alert('Vui lòng nhập vào Họ và tên!');
+      Alert.alert('Input your full name');
     }
     if (!password) {
-      Alert.alert('Vui lòng nhập vào mật khẩu!');
+      Alert.alert('Input your password!');
     }
     if (!address) {
-      Alert.alert('Vui lòng nhập vào địa chỉ cụ thể!');
-    }
-    if (!birthday) {
-      Alert.alert(
-        'Vui lòng nhập vào ngày tháng năm sinh của bạn (năm-tháng-ngày)!',
-      );
-    }
-    if (!sex) {
-      Alert.alert('Vui lòng nhập vào giới tính!');
+      Alert.alert('Input your address!');
     }
     if (!email) {
-      Alert.alert('Vui lòng nhập vào email của bạn!');
+      Alert.alert('Input your email!');
     }
 
-    props.register(name, phone, password, address, email, sex, birthday);
+    props.register(name, phone, password, address, email);
     if (props.success) {
-      Alert.alert(
-        'Thông báo',
-        'Đăng kí tài khoản thành công! Vui lòng đăng nhập để tiếp tục!',
-        [
-          {
-            text: 'Trở lại đăng nhập',
-            onPress: () => {
-              navigation.navigate('login');
-            },
+      Alert.alert('Success', 'Sign up successfully. Click done to continue!', [
+        {
+          text: 'Return Login',
+          onPress: () => {
+            navigation.navigate('login');
           },
-        ],
-      );
+        },
+      ]);
       setName('');
       setPhone('');
       setPassWord('');
       setAddress('');
-      setBirth('');
-      setSex('');
       setEmail('');
     } else {
       Alert.alert(
-        'Thông báo',
-        'Đăng kí thất bại, vui lòng kiểm tra lại thông tin.',
+        'Error',
+        'Error, registration user failed, please try again!',
       );
     }
   };
@@ -143,34 +114,24 @@ const RegisterScreen = (props: {
           <ScrollView style={styles.scroll}>
             <Inputs
               leftIcons={Icons.login.fullName}
-              placeholder={'Họ và Tên'}
+              placeholder={'Full name'}
               onChangeText={nameChange}
             />
             <Inputs
               leftIcons={Icons.login.email}
-              placeholder={'Số điện thoại'}
+              placeholder={'Phone number'}
               keyboardType={'phone-pad'}
               onChangeText={phoneChange}
             />
             <Inputs
               leftIcons={Icons.login.pass}
-              placeholder={'Mật khẩu'}
+              placeholder={'Password'}
               onChangeText={passwordChange}
             />
             <Inputs
               leftIcons={Icons.login.pass}
-              placeholder={'Địa chỉ'}
+              placeholder={'Address'}
               onChangeText={addressChange}
-            />
-            <Inputs
-              leftIcons={Icons.login.fullName}
-              placeholder={'Giới tính'}
-              onChangeText={sexChange}
-            />
-            <Inputs
-              leftIcons={Icons.login.pass}
-              placeholder={'Ngày sinh: Năm-Tháng-ngày'}
-              onChangeText={birthChange}
             />
             <Inputs
               leftIcons={Icons.login.email}
@@ -178,11 +139,11 @@ const RegisterScreen = (props: {
               onChangeText={emailChange}
             />
           </ScrollView>
-          <ButtonAccept onPress={Submit} iconLeft={false} title={'Đăng kí'} />
+          <ButtonAccept onPress={Submit} iconLeft={false} title={'Sign Up'} />
         </View>
         <View flex-1 center>
           <TouchableOpacity onPress={goToLogin}>
-            <Text color={Colors.blueNavy}>Đăng nhập?</Text>
+            <Text color={Colors.blueNavy}>Login?</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -239,9 +200,7 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
     password: number,
     address: string,
     email: string,
-    sex: string,
-    BOD: string,
-  ) => dispatch(Register(name, phone, password, address, email, sex, BOD)),
+  ) => dispatch(Register(name, phone, password, address, email)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);

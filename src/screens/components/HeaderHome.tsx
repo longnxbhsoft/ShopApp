@@ -111,7 +111,7 @@ const Header: FC<Props> = ({
                 <View marginL-10>
                   <TextInput
                     onChangeText={onChangeText}
-                    placeholder={'Nhập vào tự khoá tìm kiếm...'}
+                    placeholder={'Enter search keyword...'}
                     placeholderTextColor={Colors.blueDark}
                     style={styles.colors}
                   />

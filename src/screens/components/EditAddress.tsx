@@ -40,7 +40,7 @@ const AddressEdit = (props: Props) => {
       br20>
       <View marginH-10 centerV row height={60}>
         <View flex-5>
-          <Text style={styles.font16}>Họ và Tên</Text>
+          <Text style={styles.font16}>Full name</Text>
           <Text style={styles.font23}>{props.data.name}</Text>
         </View>
         <View flex-1 center>
@@ -51,7 +51,7 @@ const AddressEdit = (props: Props) => {
       </View>
       <View marginH-10 centerV row height={60}>
         <View flex-5>
-          <Text style={styles.font16}>Số điện thoại</Text>
+          <Text style={styles.font16}>Phone number</Text>
           <Text style={styles.font23}>{props.data.phone}</Text>
         </View>
         <View flex-1 center>
@@ -64,7 +64,7 @@ const AddressEdit = (props: Props) => {
         <>
           <View marginH-10 centerV row height={60}>
             <View flex-5>
-              <Text style={styles.font16}>Ngày sinh</Text>
+              <Text style={styles.font16}>Date of birth</Text>
               <Text style={styles.font23}>{props.data.BOD}</Text>
             </View>
             <View flex-1 center>
@@ -75,7 +75,7 @@ const AddressEdit = (props: Props) => {
           </View>
           <View marginH-10 centerV row height={60}>
             <View flex-5>
-              <Text style={styles.font16}>Giới tính</Text>
+              <Text style={styles.font16}>Sex</Text>
               <Text style={styles.font23}>{sex}</Text>
             </View>
             <View flex-1 center>
@@ -88,7 +88,7 @@ const AddressEdit = (props: Props) => {
       )}
       <View marginH-10 centerV row height={60}>
         <View flex-5>
-          <Text style={styles.font16}>Địa chỉ</Text>
+          <Text style={styles.font16}>Address</Text>
           <Text numberOfLines={1} style={styles.font23}>
             {props.data.address}
           </Text>

@@ -52,7 +52,7 @@ const reducers = (
       return Object.assign({}, state, {loading: true});
     case 'LOGIN_SUCCESS':
       return Object.assign({}, state, {
-        dataUser: action.payload,
+        info: action.payload,
         loading: false,
         login: true,
       });

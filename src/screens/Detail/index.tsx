@@ -96,7 +96,7 @@ const DetailScreen = (props: {
 
   const addCarts = () => {
     props.addCart(item);
-    Alert.alert('Thông báo', 'Sản phẩm đã được thêm vào giỏ hàng');
+    Alert.alert('Messages', 'The product has been added to cart');
   };
 
   let formaters = new Intl.NumberFormat('us-US');
@@ -145,7 +145,7 @@ const DetailScreen = (props: {
               {props.detail.name}
             </Text>
             <Text marginT-10>
-              Giá:{' '}
+              Price:{' '}
               <Text color={Colors.orangeCarrot}>
                 {formaters.format(
                   props.detail.price !== undefined
@@ -156,23 +156,23 @@ const DetailScreen = (props: {
               </Text>
             </Text>
             <Text marginT-10>
-              Phân loại:{' '}
+              Category:{' '}
               {props.detail.attributes !== undefined
                 ? props.detail.attributes.color
                 : null}
             </Text>
             <Text marginT-10>
-              Tình trạng:{' '}
+              Status:{' '}
               {props.detail.quantity > 0 ? (
-                <Text color={Colors.greenPine}>Còn hàng</Text>
+                <Text color={Colors.greenPine}>Stocking</Text>
               ) : (
-                <Text color={Colors.redAlizarin}>Hết hàng</Text>
+                <Text color={Colors.redAlizarin}>Out of stock</Text>
               )}
             </Text>
             <Text marginT-10>{props.detail.description}</Text>
             <View height={80} marginT-15 row>
               <View center flex-1>
-                <Text style={styles.fontSize16}>Đánh giá</Text>
+                <Text style={styles.fontSize16}>Review</Text>
                 <Text marginT-10>
                   {props.detail.attributes !== undefined
                     ? props.detail.attributes.review
@@ -181,13 +181,13 @@ const DetailScreen = (props: {
               </View>
               <View flex-1 center>
                 <Text style={styles.fontSize16} numberOfLines={2}>
-                  Thời gian giao hàng
+                  Delivery time
                 </Text>
                 <Text marginT-10>
                   {props.detail.attributes !== undefined
                     ? props.detail.attributes.deliveryTime
                     : null}{' '}
-                  ngày
+                  Days
                 </Text>
               </View>
             </View>

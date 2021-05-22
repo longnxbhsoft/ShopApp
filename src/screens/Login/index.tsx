@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {View, Text} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
@@ -11,6 +11,7 @@ import {Inputs, ButtonAccept} from '../components';
 const LoginScreen = (props: {
   Login: (arg0: string, arg1: string) => void;
   loading: any;
+  login: boolean;
 }) => {
   const navigation = useNavigation();
 
@@ -35,6 +36,10 @@ const LoginScreen = (props: {
     props.Login(phone, password);
   };
 
+  useEffect(() => {
+    props.login ? navigation.goBack() : null;
+  }, [navigation, props.login]);
+
   return (
     <Container
       backgroundColor={Colors.white}
@@ -43,33 +48,33 @@ const LoginScreen = (props: {
       <View flex-8 style={styles.container} centerH>
         <Loader loading={props.loading} />
         <View height={60} marginT-100 center>
-          <Text style={styles.fonts}>Đăng nhập</Text>
+          <Text style={styles.fonts}>Login</Text>
         </View>
         <View flex-2 />
         <View height={150} centerH backgroundColor={Colors.black01}>
           <Inputs
             leftIcons={Icons.login.email}
-            placeholder={'Số điện thoại'}
+            placeholder={'Phone Number'}
             keyboardType={'phone-pad'}
             onChangeText={phoneChange}
           />
           <Inputs
             onChangeText={passwordChange}
             leftIcons={Icons.login.pass}
-            placeholder={'Mật khẩu'}
+            placeholder={'Password'}
             isSecure={true}
           />
         </View>
         <View flex-1 />
         <TouchableOpacity onPress={FbLogin}>
-          <Text color={Colors.blueNavy}>Quên mật khẩu?</Text>
+          <Text color={Colors.blueNavy}>Forgot your password?</Text>
         </TouchableOpacity>
         <View flex-2 />
-        <ButtonAccept onPress={gotoHome} iconLeft={false} title={'Đăng nhập'} />
+        <ButtonAccept onPress={gotoHome} iconLeft={false} title={'Login'} />
       </View>
       <View flex-2 center>
         <TouchableOpacity onPress={createAnAcout}>
-          <Text color={Colors.blueNavy}>Tạo tài khoản mới?</Text>
+          <Text color={Colors.blueNavy}>Create new account?</Text>
         </TouchableOpacity>
       </View>
     </Container>
@@ -96,10 +101,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: {loading: boolean}) => {
+const mapStateToProps = (state: {loading: boolean; login: boolean}) => {
   const {loading} = state;
+  const {login} = state;
   return {
     loading: loading,
+    login: login,
   };
 };
 

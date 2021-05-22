@@ -1,13 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React from 'react';
-import {StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import React, {useCallback} from 'react';
+import {Alert, StyleSheet} from 'react-native';
 import {TouchableOpacity, View, Text} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
 import {Colors, Metrics} from '../../assets';
 import {Logout} from '../../reduxs/actions/Home.act';
 import {Container, EditAddress, Header} from '../components';
 
-const settingScreen = (props: {
+const SettingScreen = (props: {
   logout: () => void;
   info: {
     name: string;
@@ -17,23 +18,46 @@ const settingScreen = (props: {
     sex?: string | undefined;
     BOD?: string | undefined;
   };
+  login: boolean;
 }) => {
   const LogOut = async () => {
     await AsyncStorage.setItem('id', '');
+    Alert.alert('Thông báo', 'Bạn đã đăng xuất tài khoản thành công', [
+      {
+        text: 'Ok',
+        onPress: () => {
+          navigation.navigate('Home');
+        },
+      },
+    ]);
     props.logout();
   };
+
+  const navigation = useNavigation();
+
+  const Login = useCallback(() => {
+    navigation.navigate('login');
+  }, [navigation]);
+
+  console.log(props.info);
 
   return (
     <Container
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <Header cart={true} title={'Thông tin'} />
+      <Header cart={true} title={'Information'} />
       <View spread flex-1 centerH paddingV-30>
         <EditAddress data={props.info} dateOfBirth={true} />
-        <TouchableOpacity br20 center style={styles.buttonS} onPress={LogOut}>
-          <Text style={styles.fontSize}>Đăng xuất</Text>
-        </TouchableOpacity>
+        {props.login ? (
+          <TouchableOpacity br20 center style={styles.buttonS} onPress={LogOut}>
+            <Text style={styles.fontSize}>Logout</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity br20 center style={styles.buttonS} onPress={Login}>
+            <Text style={styles.fontSize}>Login</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </Container>
   );
@@ -71,4 +95,4 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
   logout: () => dispatch(Logout()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(settingScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SettingScreen);

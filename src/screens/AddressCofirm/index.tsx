@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View} from 'react-native-ui-lib';
 import {connect} from 'react-redux';
 import {Colors, Metrics} from '../../assets';
@@ -14,6 +14,7 @@ const AddressConfirmScreen = (props: {
     BOD?: string | undefined;
   };
   route: {params: {total: any}};
+  login: boolean;
 }) => {
   const navigation = useNavigation();
 
@@ -26,31 +27,50 @@ const AddressConfirmScreen = (props: {
     });
   };
 
+  const Login = useCallback(() => {
+    navigation.navigate('login');
+  }, [navigation]);
+
   const width = Metrics.screen.width - 60;
   return (
     <Container
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <Header title={'Thêm địa chỉ'} isBack={true} delivery={true} active={1} />
+      <Header
+        title={'Add new address'}
+        isBack={true}
+        delivery={true}
+        active={1}
+      />
       <View flex-1 centerH>
         <View flex-10 width={width} center>
           <EditAddress data={props.info} dateOfBirth={false} />
         </View>
         <View flex-2 spread paddingT-15 paddingB-10>
-          <ButtonAccept onPress={onNext} iconLeft={false} title={'Tiếp tục'} />
+          {props.login ? (
+            <ButtonAccept onPress={onNext} iconLeft={false} title={'Next'} />
+          ) : (
+            <ButtonAccept onPress={Login} iconLeft={false} title={'Login'} />
+          )}
         </View>
       </View>
     </Container>
   );
 };
 
-const mapStateToProps = (state: {loading: boolean; info: any}) => {
+const mapStateToProps = (state: {
+  loading: boolean;
+  info: any;
+  login: boolean;
+}) => {
   const {loading} = state;
   const {info} = state;
+  const {login} = state;
   return {
     loading: loading,
     info: info,
+    login: login,
   };
 };
 

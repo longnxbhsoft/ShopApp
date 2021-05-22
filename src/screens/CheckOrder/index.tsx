@@ -85,12 +85,7 @@ const CheckOrderScreens = (props: {
       backgroundColor={Colors.white}
       backgroundBody={Colors.white}
       barStyle="dark-content">
-      <Header
-        title={'Xác nhận sản phẩm'}
-        isBack={true}
-        delivery={true}
-        active={2}
-      />
+      <Header title={'Confirm'} isBack={true} delivery={true} active={2} />
       <Loader loading={props.loading} />
       <View flex-1 centerH>
         <View flex-6 centerH>
@@ -112,22 +107,18 @@ const CheckOrderScreens = (props: {
               width={width - 40}
               height={40}
               backgroundColor={Colors.blueDark10}>
-              <Text style={styles.font15}>Thông tin thanh toán</Text>
+              <Text style={styles.font15}>Infomation Payment</Text>
             </View>
             <View row spread marginV-12>
-              <Text style={styles.font15}>Số sản phẩm</Text>
+              <Text style={styles.font15}>Number</Text>
               <Text style={styles.font15}>{props.numberCart}</Text>
             </View>
             <View row spread>
-              <Text style={styles.font15}>Tổng</Text>
+              <Text style={styles.font15}>Total</Text>
               <Text style={styles.font15}>{formaters.format(total)} đ</Text>
             </View>
           </View>
-          <ButtonAccept
-            iconLeft={false}
-            title={'Tiến hành đặt hàng'}
-            onPress={Order}
-          />
+          <ButtonAccept iconLeft={false} title={'Order'} onPress={Order} />
         </View>
       </View>
     </Container>
@@ -151,19 +142,19 @@ const mapStateToProps = (state: {
   numberCart?: any;
   loading: boolean;
   success: boolean;
-  dataUser: any;
+  info: any;
 }) => {
   const {Carts} = state;
   const {numberCart} = state;
   const {loading} = state;
   const {success} = state;
-  const {dataUser} = state;
+  const {info} = state;
   return {
     Carts: Carts,
     numberCart: numberCart,
     loading: loading,
     success: success,
-    dataUser: dataUser,
+    dataUser: info._id,
   };
 };
 
